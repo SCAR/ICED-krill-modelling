@@ -1,0 +1,10 @@
+# ICED-krill-modelling
+<img style="float:right; clear:none; width:30%;" src="https://www.scar.org/images/Logos/ICED_highres.jpeg" />
+
+R code for the ICED krill qualitative modelling project:
+
+Sylvester ZT, Veytia D, Bahl AA, Bahlburg D, Benkort D, Bestley S, Cagdas B, Cleary ACC, Constable A, Corney S, Fach BA, Hellessey N, Hill SL, Johnston NM, Labrousse S, Merkel B, Murphy EJ, Subramaniam RC, Thorpe S, Raymond B (2025) Untangling the complexities of larval Antarctic krill overwintering success under climate change. *ICES Journal of Marine Science* [10.1093/icesjms/fsaf049](https://doi.org/10.1093/icesjms/fsaf049)
+
+## Abstract
+
+Antarctic krill (*Euphausia superba*) are integral to Southern Ocean pelagic ecosystems. Winters with extensive sea ice have been linked to high post-larval krill recruitment the following spring, suggesting that sea ice plays a critical role in larval overwinter survival. As the ocean warms and sea ice declines under climate change, understanding the mechanisms linking sea ice and krill recruitment is increasingly urgent. To address this, we developed a qualitative network model (QNM) that integrates evidence-based and hypothesized interactions to explore larval overwinter survival and growth under future climate scenarios in the southwest Atlantic sector. Our model highlights habitat-specific impacts, with substantial declines predicted for the North Antarctic Peninsula continental shelf due to reduced autumn primary productivity and warming. In contrast, survival may improve in open-ocean habitats under cooler scenarios that enhance sea-ice-associated processes, such as food availability and refuge. The inclusion of hypothesized mechanisms, such as sea-ice terraces providing refuge from predation, strengthened these conclusions and highlighted critical uncertainties, including the influence of glacial melt on food web dynamics. These findings demonstrate the value of QNMs in complementing quantitative approaches, offering a framework for identifying critical mechanisms, addressing knowledge gaps, and guiding future field and laboratory studies to improve predictions of krill responses to climate change.

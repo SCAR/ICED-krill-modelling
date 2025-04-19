@@ -1,0 +1,445 @@
+"","Negative","No Change","Positive","Node","Region","Climate Driver","Press","Scenario","Net Prediction"
+"1",53.3,0,46.7,"Growth","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-6.6
+"2",84.28,0,15.72,"Survival","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-68.56
+"3",50.56,0,49.44,"DMS","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-1.12
+"4",0,100,0,"Ice terraces","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"5",47.66,0,52.34,"Large pelagic algae","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",4.67999999999999
+"6",10.58,0,89.42,"Light","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",78.84
+"7",31.6,0,68.4,"Marine snow","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",36.8
+"8",0,100,0,"MLD","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"9",100,0,0,"Nutrients","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-100
+"10",50.12,0,49.88,"Other grazers (competition)","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-0.239999999999995
+"11",46.28,0,53.72,"POM","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",7.44
+"12",84.28,0,15.72,"Predation risk","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-68.56
+"13",48.42,0,51.58,"Sea-ice algae","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",3.16
+"14",0,100,0,"Sea-ice concentration","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"15",0,100,0,"Sea-ice convergence","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"16",0,100,0,"Sea-ice thickness","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"17",43.64,0,56.36,"Small copepods","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",12.72
+"18",52.44,0,47.56,"Small pelagic algae","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-4.88
+"19",0,100,0,"Snow","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"20",0,0,100,"Depth","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",100
+"21",100,0,0,"Latitude","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-100
+"22",100,0,0,"Autumn primary production","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-100
+"23",0,100,0,"Temperature","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"24",0,100,0,"Wind stress","Open ocean","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"25",63.34,0,36.66,"Growth","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",-26.68
+"26",63.34,0,36.66,"Survival","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",-26.68
+"27",56.1,0,43.9,"DMS","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",-12.2
+"28",0,0.02,99.98,"Ice terraces","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",99.98
+"29",39.18,0,60.82,"Large pelagic algae","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",21.64
+"30",61.32,0,38.68,"Light","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",-22.64
+"31",46.3,0,53.7,"Marine snow","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",7.4
+"32",100,0,0,"MLD","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",-100
+"33",100,0,0,"Nutrients","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",-100
+"34",71.16,0,28.84,"Other grazers (competition)","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",-42.32
+"35",73.68,0,26.32,"POM","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",-47.36
+"36",63.34,0,36.66,"Predation risk","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",-26.68
+"37",77.32,0,22.68,"Sea-ice algae","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",-54.64
+"38",0,0,100,"Sea-ice concentration","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",100
+"39",0,0,100,"Sea-ice convergence","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",100
+"40",0,0,100,"Sea-ice thickness","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",100
+"41",68.1,0,31.9,"Small copepods","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",-36.2
+"42",64.1,0,35.9,"Small pelagic algae","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",-28.2
+"43",0,100,0,"Snow","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",0
+"44",0,0,100,"Depth","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",100
+"45",100,0,0,"Latitude","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",-100
+"46",0,100,0,"Autumn primary production","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",0
+"47",100,0,0,"Temperature","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",-100
+"48",0,100,0,"Wind stress","Open ocean","Temperature","Negative","Future: climate driver sensitivity analysis",0
+"49",46.7,0,53.3,"Growth","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",6.6
+"50",46.7,0,53.3,"Survival","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",6.6
+"51",45.5,0,54.5,"DMS","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",9.00000000000001
+"52",100,0,0,"Ice terraces","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",-100
+"53",56.3,0,43.7,"Large pelagic algae","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",-12.6
+"54",6.24,0,93.76,"Light","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",87.52
+"55",28.82,0,71.18,"Marine snow","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",42.36
+"56",100,0,0,"MLD","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",-100
+"57",100,0,0,"Nutrients","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",-100
+"58",45.72,0,54.28,"Other grazers (competition)","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",8.56
+"59",49.06,0,50.94,"POM","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",1.88
+"60",46.7,0,53.3,"Predation risk","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",6.6
+"61",34.36,0,65.64,"Sea-ice algae","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",31.28
+"62",0,100,0,"Sea-ice concentration","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",0
+"63",100,0,0,"Sea-ice convergence","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",-100
+"64",100,0,0,"Sea-ice thickness","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",-100
+"65",35,0,65,"Small copepods","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",30
+"66",40.28,0,59.72,"Small pelagic algae","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",19.44
+"67",0,100,0,"Snow","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",0
+"68",0,0,100,"Depth","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",100
+"69",100,0,0,"Latitude","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",-100
+"70",0,100,0,"Autumn primary production","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",0
+"71",0,100,0,"Temperature","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",0
+"72",100,0,0,"Wind stress","Open ocean","Wind stress","Negative","Future: climate driver sensitivity analysis",-100
+"73",69.64,0,30.36,"Growth","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",-39.28
+"74",31,0,69,"Survival","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",38
+"75",33.82,0,66.18,"DMS","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",32.36
+"76",0,100,0,"Ice terraces","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"77",33.64,0,66.36,"Large pelagic algae","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",32.72
+"78",23.96,0,76.04,"Light","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",52.08
+"79",15.86,0,84.14,"Marine snow","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",68.28
+"80",0,100,0,"MLD","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"81",100,0,0,"Nutrients","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",-100
+"82",32.54,0,67.46,"Other grazers (competition)","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",34.92
+"83",78.76,0,21.24,"POM","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",-57.52
+"84",31,0,69,"Predation risk","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",38
+"85",57.88,0,42.12,"Sea-ice algae","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",-15.76
+"86",0,100,0,"Sea-ice concentration","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"87",0,100,0,"Sea-ice convergence","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"88",0,100,0,"Sea-ice thickness","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"89",37.62,0,62.38,"Small copepods","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",24.76
+"90",51.76,0,48.24,"Small pelagic algae","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",-3.52
+"91",0,100,0,"Snow","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"92",0,0,100,"Depth","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",100
+"93",100,0,0,"Latitude","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",-100
+"94",0,0,100,"Autumn primary production","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",100
+"95",0,100,0,"Temperature","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"96",0,100,0,"Wind stress","Open ocean","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"97",47.26,0,52.74,"Growth","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",5.47999999999999
+"98",47.26,0,52.74,"Survival","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",5.47999999999999
+"99",38.2,0,61.8,"DMS","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",23.6
+"100",99.98,0.02,0,"Ice terraces","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",-99.98
+"101",52.04,0,47.96,"Large pelagic algae","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",-4.08
+"102",17.72,0,82.28,"Light","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",64.56
+"103",26.84,0,73.16,"Marine snow","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",46.32
+"104",0,0,100,"MLD","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",100
+"105",49.44,0,50.56,"Nutrients","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",1.12
+"106",24.52,0,75.48,"Other grazers (competition)","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",50.96
+"107",41.34,0,58.66,"POM","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",17.32
+"108",47.26,0,52.74,"Predation risk","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",5.47999999999999
+"109",26.66,0,73.34,"Sea-ice algae","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",46.68
+"110",100,0,0,"Sea-ice concentration","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",-100
+"111",100,0,0,"Sea-ice convergence","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",-100
+"112",100,0,0,"Sea-ice thickness","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",-100
+"113",26.46,0,73.54,"Small copepods","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",47.08
+"114",37.74,0,62.26,"Small pelagic algae","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",24.52
+"115",0,100,0,"Snow","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",0
+"116",0,0,100,"Depth","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",100
+"117",100,0,0,"Latitude","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",-100
+"118",0,100,0,"Autumn primary production","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",0
+"119",0,0,100,"Temperature","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",100
+"120",0,100,0,"Wind stress","Open ocean","Temperature","Positive","Future: climate driver sensitivity analysis",0
+"121",68.22,0,31.78,"Growth","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",-36.44
+"122",68.22,0,31.78,"Survival","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",-36.44
+"123",45.64,0,54.36,"DMS","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",8.72
+"124",0,0,100,"Ice terraces","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",100
+"125",30.54,0,69.46,"Large pelagic algae","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",38.92
+"126",70.28,0,29.72,"Light","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",-40.56
+"127",36.62,0,63.38,"Marine snow","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",26.76
+"128",0,0,100,"MLD","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",100
+"129",49.84,0,50.16,"Nutrients","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",0.32
+"130",44.72,0,55.28,"Other grazers (competition)","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",10.56
+"131",70.74,0,29.26,"POM","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",-41.48
+"132",68.22,0,31.78,"Predation risk","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",-36.44
+"133",72.12,0.02,27.86,"Sea-ice algae","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",-44.26
+"134",0,100,0,"Sea-ice concentration","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",0
+"135",0,0,100,"Sea-ice convergence","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",100
+"136",0,0,100,"Sea-ice thickness","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",100
+"137",57.64,0,42.36,"Small copepods","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",-15.28
+"138",65.04,0,34.96,"Small pelagic algae","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",-30.08
+"139",0,100,0,"Snow","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",0
+"140",0,0,100,"Depth","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",100
+"141",100,0,0,"Latitude","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",-100
+"142",0,100,0,"Autumn primary production","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",0
+"143",0,100,0,"Temperature","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",0
+"144",0,0,100,"Wind stress","Open ocean","Wind stress","Positive","Future: climate driver sensitivity analysis",100
+"145",30.34,0,69.66,"Growth","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",39.32
+"146",69.66,0,30.34,"Survival","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-39.32
+"147",66.06,0,33.94,"DMS","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-32.12
+"148",0,100,0,"Glacial melt","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"149",0,100,0,"Ice terraces","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"150",66.76,0,33.24,"Large pelagic algae","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-33.52
+"151",77.02,0,22.98,"Light","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-54.04
+"152",85.2,0,14.8,"Marine snow","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-70.4
+"153",0,100,0,"MLD","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"154",0,0,100,"Nutrients","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",100
+"155",68.2,0,31.8,"Other grazers (competition)","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-36.4
+"156",20.86,0,79.14,"POM","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",58.28
+"157",69.66,0,30.34,"Predation risk","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-39.32
+"158",42.18,0,57.82,"Sea-ice algae","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",15.64
+"159",0,100,0,"Sea-ice concentration","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"160",0,100,0,"Sea-ice convergence","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"161",0,100,0,"Sea-ice thickness","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"162",62.26,0,37.74,"Small copepods","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-24.52
+"163",48.96,0,51.04,"Small pelagic algae","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",2.08
+"164",0,100,0,"Snow","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"165",100,0,0,"Depth","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-100
+"166",0,0,100,"Latitude","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",100
+"167",100,0,0,"Autumn primary production","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-100
+"168",0,100,0,"Temperature","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"169",0,100,0,"Wind stress","High-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"170",38.9,0,61.1,"Growth","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",22.2
+"171",29.26,0,70.74,"Survival","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",41.48
+"172",50.72,0,49.28,"DMS","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-1.44
+"173",100,0,0,"Glacial melt","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-100
+"174",50.34,0,49.66,"Ice terraces","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-0.68
+"175",45.94,0,54.06,"Large pelagic algae","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",8.12
+"176",76.76,0,23.24,"Light","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-53.52
+"177",64.98,0,35.02,"Marine snow","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-29.96
+"178",28.94,0,71.06,"MLD","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",42.12
+"179",15.02,0,84.98,"Nutrients","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",69.96
+"180",61.2,0,38.8,"Other grazers (competition)","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-22.4
+"181",52.62,0,47.38,"POM","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-5.23999999999999
+"182",29.26,0,70.74,"Predation risk","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",41.48
+"183",53,0,47,"Sea-ice algae","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-6
+"184",50.34,0,49.66,"Sea-ice concentration","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-0.68
+"185",50.34,0,49.66,"Sea-ice convergence","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-0.68
+"186",36.6,0,63.4,"Sea-ice thickness","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",26.8
+"187",65.38,0,34.62,"Small copepods","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-30.76
+"188",53.68,0,46.32,"Small pelagic algae","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-7.36000000000001
+"189",0,100,0,"Snow","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",0
+"190",100,0,0,"Depth","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-100
+"191",0,0,100,"Latitude","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",100
+"192",0,100,0,"Autumn primary production","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",0
+"193",100,0,0,"Temperature","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-100
+"194",0,100,0,"Wind stress","High-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",0
+"195",31,0,69,"Growth","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",38
+"196",31,0,69,"Survival","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",38
+"197",52.88,0,47.12,"DMS","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-5.76000000000001
+"198",0,100,0,"Glacial melt","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",0
+"199",100,0,0,"Ice terraces","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-100
+"200",69.06,0,30.94,"Large pelagic algae","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-38.12
+"201",27.34,0,72.66,"Light","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",45.32
+"202",63.66,0,36.34,"Marine snow","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-27.32
+"203",100,0,0,"MLD","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-100
+"204",50.96,0,49.04,"Nutrients","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-1.92000000000001
+"205",54.94,0,45.06,"Other grazers (competition)","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-9.88
+"206",29,0,71,"POM","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",42
+"207",31,0,69,"Predation risk","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",38
+"208",26.48,0,73.52,"Sea-ice algae","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",47.04
+"209",0,100,0,"Sea-ice concentration","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",0
+"210",100,0,0,"Sea-ice convergence","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-100
+"211",100,0,0,"Sea-ice thickness","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-100
+"212",41.7,0,58.3,"Small copepods","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",16.6
+"213",34.72,0,65.28,"Small pelagic algae","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",30.56
+"214",0,100,0,"Snow","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",0
+"215",100,0,0,"Depth","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-100
+"216",0,0,100,"Latitude","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",100
+"217",0,100,0,"Autumn primary production","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",0
+"218",0,100,0,"Temperature","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",0
+"219",100,0,0,"Wind stress","High-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-100
+"220",45.96,0,54.04,"Growth","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",8.08
+"221",16.16,0,83.84,"Survival","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",67.68
+"222",49.34,0,50.66,"DMS","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",1.32
+"223",0,100,0,"Glacial melt","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"224",0,100,0,"Ice terraces","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"225",52.22,0,47.78,"Large pelagic algae","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",-4.44
+"226",89.78,0,10.22,"Light","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",-79.56
+"227",69.74,0,30.26,"Marine snow","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",-39.48
+"228",0,100,0,"MLD","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"229",0,0,100,"Nutrients","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",100
+"230",49.68,0,50.32,"Other grazers (competition)","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0.640000000000001
+"231",54.68,0,45.32,"POM","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",-9.35999999999999
+"232",16.16,0,83.84,"Predation risk","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",67.68
+"233",51.72,0,48.28,"Sea-ice algae","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",-3.44
+"234",0,100,0,"Sea-ice concentration","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"235",0,100,0,"Sea-ice convergence","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"236",0,100,0,"Sea-ice thickness","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"237",56.48,0,43.52,"Small copepods","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",-12.96
+"238",48.76,0,51.24,"Small pelagic algae","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",2.48
+"239",0,100,0,"Snow","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"240",100,0,0,"Depth","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",-100
+"241",0,0,100,"Latitude","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",100
+"242",0,0,100,"Autumn primary production","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",100
+"243",0,100,0,"Temperature","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"244",0,100,0,"Wind stress","High-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"245",53.4,0,46.6,"Growth","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",-6.8
+"246",65.4,0,34.6,"Survival","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",-30.8
+"247",55,0,45,"DMS","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",-10
+"248",0,0,100,"Glacial melt","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",100
+"249",49.66,0,50.34,"Ice terraces","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",0.68
+"250",61.92,0,38.08,"Large pelagic algae","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",-23.84
+"251",39.64,0,60.36,"Light","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",20.72
+"252",59.24,0,40.76,"Marine snow","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",-18.48
+"253",71.06,0,28.94,"MLD","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",-42.12
+"254",45.96,0,54.04,"Nutrients","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",8.08
+"255",42.86,0,57.14,"Other grazers (competition)","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",14.28
+"256",34.9,0,65.1,"POM","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",30.2
+"257",65.4,0,34.6,"Predation risk","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",-30.8
+"258",43.48,0,56.52,"Sea-ice algae","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",13.04
+"259",49.66,0,50.34,"Sea-ice concentration","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",0.68
+"260",49.66,0,50.34,"Sea-ice convergence","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",0.68
+"261",63.4,0,36.6,"Sea-ice thickness","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",-26.8
+"262",38.8,0,61.2,"Small copepods","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",22.4
+"263",44.34,0,55.66,"Small pelagic algae","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",11.32
+"264",0,100,0,"Snow","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",0
+"265",100,0,0,"Depth","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",-100
+"266",0,0,100,"Latitude","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",100
+"267",0,100,0,"Autumn primary production","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",0
+"268",0,0,100,"Temperature","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",100
+"269",0,100,0,"Wind stress","High-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",0
+"270",54.34,0,45.66,"Growth","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",-8.67999999999999
+"271",54.34,0,45.66,"Survival","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",-8.67999999999999
+"272",54.18,0,45.82,"DMS","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",-8.35999999999999
+"273",0,100,0,"Glacial melt","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",0
+"274",0,0,100,"Ice terraces","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",100
+"275",42.96,0,57.04,"Large pelagic algae","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",14.08
+"276",93.98,0,6.02,"Light","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",-87.96
+"277",70.66,0,29.34,"Marine snow","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",-41.32
+"278",0,0,100,"MLD","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",100
+"279",0,0,100,"Nutrients","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",100
+"280",52.72,0,47.28,"Other grazers (competition)","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",-5.44
+"281",52.72,0,47.28,"POM","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",-5.44
+"282",54.34,0,45.66,"Predation risk","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",-8.67999999999999
+"283",66.54,0,33.46,"Sea-ice algae","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",-33.08
+"284",0,100,0,"Sea-ice concentration","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",0
+"285",0,0,100,"Sea-ice convergence","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",100
+"286",0,0,100,"Sea-ice thickness","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",100
+"287",66.08,0,33.92,"Small copepods","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",-32.16
+"288",60.62,0,39.38,"Small pelagic algae","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",-21.24
+"289",0,100,0,"Snow","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",0
+"290",100,0,0,"Depth","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",-100
+"291",0,0,100,"Latitude","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",100
+"292",0,100,0,"Autumn primary production","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",0
+"293",0,100,0,"Temperature","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",0
+"294",0,0,100,"Wind stress","High-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",100
+"295",14.12,0,85.88,"Growth","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",71.76
+"296",54.76,0,45.24,"Survival","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-9.52
+"297",33.6,0,66.4,"DMS","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",32.8
+"298",0,100,0,"Glacial melt","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"299",0,100,0,"Ice terraces","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"300",60.02,0,39.98,"Large pelagic algae","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-20.04
+"301",24.52,0,75.48,"Light","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",50.96
+"302",85.02,0,14.98,"Marine snow","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-70.04
+"303",0,100,0,"MLD","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"304",0,0,100,"Nutrients","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",100
+"305",35.66,0,64.34,"Other grazers (competition)","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",28.68
+"306",16.94,0,83.06,"POM","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",66.12
+"307",54.76,0,45.24,"Predation risk","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-9.52
+"308",13.9,0,86.1,"Sea-ice algae","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",72.2
+"309",0,100,0,"Sea-ice concentration","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"310",0,100,0,"Sea-ice convergence","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"311",0,100,0,"Sea-ice thickness","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"312",48.94,0,51.06,"Small copepods","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",2.12
+"313",27.22,0,72.78,"Small pelagic algae","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",45.56
+"314",0,100,0,"Snow","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"315",100,0,0,"Depth","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-100
+"316",100,0,0,"Latitude","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-100
+"317",100,0,0,"Autumn primary production","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",-100
+"318",0,100,0,"Temperature","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"319",0,100,0,"Wind stress","Low-lat shelf","Autumn primary production","Negative","Future: climate driver sensitivity analysis",0
+"320",31.7,0,68.3,"Growth","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",36.6
+"321",23.84,0,76.16,"Survival","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",52.32
+"322",40.78,0,59.22,"DMS","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",18.44
+"323",100,0,0,"Glacial melt","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-100
+"324",50.34,0,49.66,"Ice terraces","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-0.68
+"325",43.86,0,56.14,"Large pelagic algae","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",12.28
+"326",64.46,0,35.54,"Light","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-28.92
+"327",66.64,0,33.36,"Marine snow","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-33.28
+"328",28.94,0,71.06,"MLD","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",42.12
+"329",15.02,0,84.98,"Nutrients","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",69.96
+"330",52.06,0,47.94,"Other grazers (competition)","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-4.12
+"331",50.08,0,49.92,"POM","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-0.160000000000011
+"332",23.84,0,76.16,"Predation risk","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",52.32
+"333",43.76,0,56.24,"Sea-ice algae","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",12.48
+"334",50.34,0,49.66,"Sea-ice concentration","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-0.68
+"335",50.34,0,49.66,"Sea-ice convergence","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-0.68
+"336",36.6,0,63.4,"Sea-ice thickness","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",26.8
+"337",62.6,0,37.4,"Small copepods","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-25.2
+"338",46.72,0,53.28,"Small pelagic algae","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",6.56000000000001
+"339",0,100,0,"Snow","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",0
+"340",100,0,0,"Depth","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-100
+"341",100,0,0,"Latitude","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-100
+"342",0,100,0,"Autumn primary production","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",0
+"343",100,0,0,"Temperature","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",-100
+"344",0,100,0,"Wind stress","Low-lat shelf","Temperature","Negative","Future: climate driver sensitivity analysis",0
+"345",23.48,0,76.52,"Growth","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",53.04
+"346",23.48,0,76.52,"Survival","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",53.04
+"347",37.44,0,62.56,"DMS","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",25.12
+"348",0,100,0,"Glacial melt","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",0
+"349",100,0,0,"Ice terraces","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-100
+"350",64.24,0,35.76,"Large pelagic algae","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-28.48
+"351",10.24,0,89.76,"Light","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",79.52
+"352",62.68,0,37.32,"Marine snow","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-25.36
+"353",100,0,0,"MLD","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-100
+"354",50.96,0,49.04,"Nutrients","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-1.92000000000001
+"355",38.98,0,61.02,"Other grazers (competition)","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",22.04
+"356",27.12,0,72.88,"POM","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",45.76
+"357",23.48,0,76.52,"Predation risk","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",53.04
+"358",16.6,0,83.4,"Sea-ice algae","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",66.8
+"359",0,100,0,"Sea-ice concentration","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",0
+"360",100,0,0,"Sea-ice convergence","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-100
+"361",100,0,0,"Sea-ice thickness","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-100
+"362",37.16,0,62.84,"Small copepods","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",25.68
+"363",26.82,0,73.18,"Small pelagic algae","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",46.36
+"364",0,100,0,"Snow","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",0
+"365",100,0,0,"Depth","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-100
+"366",100,0,0,"Latitude","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-100
+"367",0,100,0,"Autumn primary production","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",0
+"368",0,100,0,"Temperature","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",0
+"369",100,0,0,"Wind stress","Low-lat shelf","Wind stress","Negative","Future: climate driver sensitivity analysis",-100
+"370",25.48,0,74.52,"Growth","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",49.04
+"371",7.38,0,92.62,"Survival","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",85.24
+"372",18.6,0,81.4,"DMS","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",62.8
+"373",0,100,0,"Glacial melt","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"374",0,100,0,"Ice terraces","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"375",45.24,0,54.76,"Large pelagic algae","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",9.52
+"376",37.8,0,62.2,"Light","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",24.4
+"377",70.72,0,29.28,"Marine snow","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",-41.44
+"378",0,100,0,"MLD","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"379",0,0,100,"Nutrients","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",100
+"380",18.94,0,81.06,"Other grazers (competition)","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",62.12
+"381",47.18,0,52.82,"POM","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",5.64
+"382",7.38,0,92.62,"Predation risk","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",85.24
+"383",19.84,0,80.16,"Sea-ice algae","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",60.32
+"384",0,100,0,"Sea-ice concentration","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"385",0,100,0,"Sea-ice convergence","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"386",0,100,0,"Sea-ice thickness","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"387",43,0,57,"Small copepods","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",14
+"388",25.42,0,74.58,"Small pelagic algae","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",49.16
+"389",0,100,0,"Snow","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"390",100,0,0,"Depth","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",-100
+"391",100,0,0,"Latitude","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",-100
+"392",0,0,100,"Autumn primary production","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",100
+"393",0,100,0,"Temperature","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"394",0,100,0,"Wind stress","Low-lat shelf","Autumn primary production","Positive","Future: climate driver sensitivity analysis",0
+"395",46.04,0,53.96,"Growth","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",7.91999999999999
+"396",59.38,0,40.62,"Survival","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",-18.76
+"397",44.6,0,55.4,"DMS","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",10.8
+"398",0,0,100,"Glacial melt","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",100
+"399",49.66,0,50.34,"Ice terraces","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",0.68
+"400",59.12,0,40.88,"Large pelagic algae","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",-18.24
+"401",26.98,0,73.02,"Light","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",46.04
+"402",60.4,0,39.6,"Marine snow","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",-20.8
+"403",71.06,0,28.94,"MLD","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",-42.12
+"404",45.96,0,54.04,"Nutrients","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",8.08
+"405",34.64,0,65.36,"Other grazers (competition)","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",30.72
+"406",33.28,0,66.72,"POM","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",33.44
+"407",59.38,0,40.62,"Predation risk","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",-18.76
+"408",34.88,0,65.12,"Sea-ice algae","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",30.24
+"409",49.66,0,50.34,"Sea-ice concentration","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",0.68
+"410",49.66,0,50.34,"Sea-ice convergence","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",0.68
+"411",63.4,0,36.6,"Sea-ice thickness","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",-26.8
+"412",36.32,0,63.68,"Small copepods","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",27.36
+"413",38.26,0,61.74,"Small pelagic algae","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",23.48
+"414",0,100,0,"Snow","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",0
+"415",100,0,0,"Depth","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",-100
+"416",100,0,0,"Latitude","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",-100
+"417",0,100,0,"Autumn primary production","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",0
+"418",0,0,100,"Temperature","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",100
+"419",0,100,0,"Wind stress","Low-lat shelf","Temperature","Positive","Future: climate driver sensitivity analysis",0
+"420",43.56,0,56.44,"Growth","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",12.88
+"421",43.56,0,56.44,"Survival","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",12.88
+"422",39.02,0,60.98,"DMS","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",21.96
+"423",0,100,0,"Glacial melt","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",0
+"424",0,0,100,"Ice terraces","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",100
+"425",39.32,0,60.68,"Large pelagic algae","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",21.36
+"426",79.2,0,20.8,"Light","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",-58.4
+"427",73.1,0,26.9,"Marine snow","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",-46.2
+"428",0,0,100,"MLD","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",100
+"429",0,0,100,"Nutrients","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",100
+"430",37.4,0,62.6,"Other grazers (competition)","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",25.2
+"431",48.6,0,51.4,"POM","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",2.8
+"432",43.56,0,56.44,"Predation risk","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",12.88
+"433",53.48,0,46.52,"Sea-ice algae","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",-6.96
+"434",0,100,0,"Sea-ice concentration","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",0
+"435",0,0,100,"Sea-ice convergence","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",100
+"436",0,0,100,"Sea-ice thickness","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",100
+"437",62.14,0,37.86,"Small copepods","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",-24.28
+"438",51.24,0,48.76,"Small pelagic algae","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",-2.48
+"439",0,100,0,"Snow","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",0
+"440",100,0,0,"Depth","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",-100
+"441",100,0,0,"Latitude","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",-100
+"442",0,100,0,"Autumn primary production","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",0
+"443",0,100,0,"Temperature","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",0
+"444",0,0,100,"Wind stress","Low-lat shelf","Wind stress","Positive","Future: climate driver sensitivity analysis",100

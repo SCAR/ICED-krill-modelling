@@ -1,0 +1,390 @@
+---
+title: "Supplemental-map-study-locations"
+author: "Devi Veytia"
+date: "2024-12-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load libraries}
+library(dplyr)
+library(reshape2)
+library(ggplot2)
+require(rnaturalearth)
+
+```
+
+# Study data
+
+```{r read in sup table 1 interactions and metadata}
+STab <- readxl::read_excel(
+  here::here("data/Supplementary table 1 locations.xlsx"),
+  sheet = "STab 1"
+)
+STab$interactionID <- 1:nrow(STab)
+STab$Component <- as.factor(STab$Component)
+STab$Class. <- factor(STab$Class.,
+                      levels = c("evidenced", "hypothesized"))
+
+Meta <- readxl::read_excel(
+  here::here("data/Supplementary table 1 locations.xlsx"),
+  sheet = "Metadata codebook"
+)
+citationID <- Meta$citationID
+FirstAuth <- stringr::word(Meta$`Full citation`, 1)
+FirstAuth<- gsub(pattern = ",",replacement = "",FirstAuth)
+# extract year
+extract_year <- function(text){
+  year <- stringr::str_extract_all(text, "(?<=\\()\\d{4}(?=\\))",simplify = T)
+  if(length(year) == 0){
+   
+    year <- stringr::str_extract_all(gsub("[A-Za-z]", "", text), "\\(.*(\\d{4})\\)",simplify = T)
+    year <- gsub("[^0-9]", "", year)
+  }
+  return(year)
+}
+year <- rep(NA, length(Meta$`Full citation`))
+for(i in 1:length(year)){
+  year[i] <- extract_year(Meta$`Full citation`[i])
+}
+```
+
+
+```{r match metadata to references in each edge mechanism}
+
+## Function to match the citations in text to metadata from codebook
+## For testing
+i=8
+interactionID = i
+text = STab$Mechanism[i]
+pair = STab$Pair[i]
+citationID = Meta$citationID
+
+
+citationMatchFn <- function(text, FirstAuth, year, citationID, pair, interactionID){
+  
+  citations <- stringr::str_extract_all(text, "\\([^\\)]*\\d+[^\\)]*\\)", simplify = T)
+  if(length(citations)>1){
+    citations <- paste(citations, collapse = " ")
+  }
+  #results <- vector("list", length(citations))
+  # Empty dataframe to fill with results
+  results <- data.frame(
+    interactionID = interactionID,
+    Pair = pair,
+    FirstAuth = NA,
+    year = NA,
+    citationID = NA
+    )
+  if(length(citations) == 0){return(results)}
+  #if(citations == "" | is.na(citations)){return(results)}
+  
+  # if citations, search for author matches
+  authMatchInd <- which(stringr::str_detect(citations, FirstAuth))
+  authMatches <- FirstAuth[authMatchInd]
+  if(length(authMatches) == 0 ){return(results)}
+    
+  # If there are author mataches, make a dataframe with 
+  # Author name, year, and citation id
+  # results <- results[rep(row.names(results), length(authMatches)),]
+  # results$FirstAuth <- authMatches
+    
+    
+  # for each author match, find the corresponding year
+  authMatches <- unique(authMatches)
+  for(a in 1:length(authMatches)){
+    yearMatches <- stringr::str_extract_all(citations,
+                           paste0("(?<=\\b", authMatches[a], "\\b)(.*?\\d{4})"))
+    yearMatches <- unlist(lapply(yearMatches, function(x) str_extract(x, "\\d{4}")))
+      
+    # which ids have the same First Auth and year matches
+    ind <- which(FirstAuth == authMatches[a] & year %in% yearMatches)
+    if(length(ind) == 0){next}
+    
+    # Fill in results
+    results <- rbind(
+      results,
+      data.frame(
+        interactionID = rep(interactionID, length(ind)),
+        Pair = rep(pair, length(ind)),
+        FirstAuth = rep(authMatches[a], length(ind)),
+        year = year[ind],
+        citationID = citationID[ind]
+        )
+    )
+    
+  }
+  results <- na.omit(results)
+  results <- results[!duplicated(results),]
+  return(results)
+}
+
+# # Test
+citationMatchFn(text = text, FirstAuth = FirstAuth, year = year, citationID = citationID, pair = pair, interactionID = interactionID)
+
+# Loop through all the data to create a lookup table
+text = STab$Mechanism
+pair = STab$Pair
+interactionID = STab$interactionID
+for(i in 1:length(text)){
+  temp <- citationMatchFn(text = text[i], FirstAuth = FirstAuth, year = year, citationID = citationID, pair = pair[i], interactionID = interactionID[i])
+  if(i==1){
+    citationMatchLookup <- temp
+  }else{
+    citationMatchLookup <- rbind(
+      citationMatchLookup, temp
+    )
+  }
+}
+#View(citationMatchLookup)
+
+# check that all citations in the metadata are matched
+sum(!(Meta$citationID %in% citationMatchLookup$citationID))
+
+```
+
+```{r summarize into P/A for each regional type for each mechanism and write to file}
+
+## For each interaction, indicate presence/absence of each regional type
+paRegion <- citationMatchLookup %>%
+  select(interactionID, Pair, citationID) %>%
+  left_join(Meta %>% select(citationID, `Open ocean`, `High-lat shelf`, `Low-lat shelf`)) 
+paRegion[paRegion == "<NA>"] <- NA
+paRegion <- apply(paRegion[,4:6], 2, FUN = function(x) tapply(as.logical(x), paRegion$interactionID, sum, na.rm=T))
+paRegion[paRegion > 1] <- 1
+paRegion <- apply(paRegion, 2, as.logical)
+paRegion <- as.data.frame(paRegion)
+paRegion$interactionID <- as.numeric(rownames(paRegion))
+
+STabRegion <- STab %>%
+  left_join(paRegion, by = "interactionID")
+STabRegion$interactionID <- NULL
+
+
+## Write output
+writexl::write_xlsx(STabRegion, path = here::here("outputs/STab1_RegionPresence.xlsx"))
+```
+
+
+# Map the extents of studies on a grid
+
+Consider stratifying data by interaction type
+
+```{r for each study, add column with corresponding mechanism type}
+Meta2 <- Meta %>%
+  left_join(citationMatchLookup[,c("citationID","interactionID")], by = "citationID") %>% 
+  left_join(STab[,c("interactionID","Component")], by = "interactionID")
+  
+summary(Meta2)
+```
+
+
+```{r}
+library(raster)
+
+ras <- raster::raster(xmn = -180, xmx = 180, ymn = -90, ymx = -50, 
+                       crs = "+proj=longlat +datum=WGS84", 
+                       res = 0.5)
+vals <- 1:ncell(ras)
+ras <- setValues(ras, vals)
+
+# xy <- coordinates(ras, spatial = T) 
+# xy <- SpatialPointsDataFrame(xy, data = data.frame(cellNo = 1:ncell(ras)))
+xy <- rasterToPoints(ras)
+xy <- as.data.frame(xy)
+colnames(xy) <- c("x","y","cellNo")
+
+# for each article, see which grid cells are covered by extent
+for(i in 1:nrow(Meta2)){
+  if(i == 1){
+    gridMatches <- list()
+  }
+  
+  coords <- rbind(
+    c(Meta2$xmin[i], Meta2$ymin[i]),
+    c(Meta2$xmin[i], Meta2$ymax[i]),
+    c(Meta2$xmax[i], Meta2$ymax[i]),
+    c(Meta2$xmax[i], Meta2$ymin[i]))
+  coords <- coords[!duplicated(coords),]
+  if(is.null(dim(coords))){next}
+  
+  class(coords) <- "numeric"
+  
+  # if a point
+  if(nrow(coords) == 1){
+    point <- SpatialPoints(matrix(coords, ncol = 2, nrow=1), proj4string = crs(ras))
+    #int <- rgeos::gIntersection(xy, point)
+    int <- raster::extract(ras, point)
+  }
+  
+  # if a line
+  if(nrow(coords) == 2){
+    line <- Line(coords)
+    line <- Lines(list(line), ID = 1)
+    spLine <- SpatialLines(list(line), proj4string = crs(ras))
+    #int <- raster::intersect(spLine, ras)
+    int <- raster::extract(ras, spLine)
+  }
+  
+  # If a bounding box
+  if(2 < nrow(coords)){
+    coords <- rbind(coords, coords[1,])
+    poly <- Polygon(coords)
+    poly <- Polygons(list(poly), ID = Meta2$`Data id`[i])
+    spPoly <- SpatialPolygons(list(poly), proj4string = crs(ras))
+    #int <- rgeos::gIntersection(xy, spPoly)
+    int <- raster::extract(ras, spPoly)
+  }
+  
+  tmp <- data.frame(cellNo = int[[1]])
+  tmp$`Data id` <- rep(Meta2$`Data id`[i], nrow(tmp))
+  tmp$citationID <- rep(Meta2$citationID[i], nrow(tmp))
+  tmp$Component <- rep(Meta2$Component[i], nrow(tmp))
+  
+  # save results in list
+  gridMatches[[length(gridMatches)+1]] <- tmp
+  
+}
+
+gridMatches <- do.call(rbind.data.frame, gridMatches)
+
+```
+
+```{r sum number of studies by grid cell and plot}
+
+
+
+# Southern ocean plot -------------
+
+# load libraries
+require(tidyverse)
+require(sf)
+require(raster)
+require(marmap)
+require(patchwork)
+
+# define projection
+prj <- "+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=km +no_defs +ellps=WGS84 +towgs84=0,0,0"
+
+# download bathymetry data from marmap
+bathy <- marmap::getNOAA.bathy(lon1 = -180,
+                               lon2 = 180,
+                               lat1 = -90,
+                               lat2 = -30,
+                               resolution = 10)
+# convert bathmetry data to raster
+bat <- marmap::as.raster(bathy)
+bat[bat > 0] <- NA # not interested in values on land...
+
+# project bathymetry data
+bat_prj <- raster::projectRaster(bat, 
+                                 res = 50,
+                                 method = "bilinear",
+                                 crs = prj)
+
+# convert bathymetry data to xyz tibble for plotting in ggplot2
+bat_df <- bat_prj %>% raster::rasterToPoints() %>% as_tibble()
+bat_df # check format looks right
+names(bat_df)[3] <- "depth" # change variable name
+
+
+
+# load shapefile from rnatural earth package
+world_shp <- rnaturalearth::ne_countries(scale = 110, returnclass = "sf")
+
+# define cropping polygon to clip shapefile to southern ocean
+CP <- sf::st_bbox(c(xmin = -180, xmax = 180, ymin = -90, ymax = -50),
+                  crs = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs") %>% sf::st_as_sfc()
+
+# crop shapefile to southern hemisphere and project
+sf::sf_use_s2(FALSE) # switch off strange new sf warnings
+world_shp <- sf::st_crop(sf::st_buffer(world_shp, 0), CP)
+world_shp <- world_shp %>% sf::st_transform(prj)
+
+
+# create a shape that is the same size as the visible hole you want
+# in this case I want to see up to 4500 km from the centre of the map
+# the projection has the south pole xy coordinate as 0,0 
+little <- st_point(c(0,0)) %>% st_sfc(crs = prj) %>% st_buffer(dist = 4500)
+
+# create enclosing rectangle to mask the map with
+xlim <- sf::st_bbox(little)[c("xmin", "xmax")]*1.5
+ylim <- sf::st_bbox(little)[c("ymin", "ymax")]*1.5
+# turn into enclosing rectangle
+encl_rect <- list(cbind(c(xlim[1], xlim[2], xlim[2], xlim[1], xlim[1]), 
+                        c(ylim[1], ylim[1], ylim[2], ylim[2], ylim[1]))) %>%
+  sf::st_polygon() %>%
+  sf::st_sfc(crs = prj)
+
+# now cookie cut out the circle from the enclosing rectangle and the earth outline
+cookie <- sf::st_difference(encl_rect, little)
+
+require(ggnewscale)
+
+
+# data
+ 
+
+
+
+
+
+
+# circumpolar studies to remove from plotting
+circStudies <- Meta2$`Data id`[which(as.integer(Meta2$xmin) == -180 & as.integer(Meta2$xmax) == 180)]
+
+# study types to plot
+stypes <- c("ecological","biophysical")
+
+# colour scale limits
+tmp <- gridMatches %>%
+  filter(!(`Data id` %in% circStudies)) %>%
+  group_by(cellNo) %>%
+  summarise(z = n_distinct(`Data id`)) 
+fillLim <- c(0, max(tmp$z, na.rm=T))
+
+for(i in 1:length(stypes)){
+  if(i==1){
+    ggpList <- list()
+  }
+  dat <- gridMatches %>%
+    filter(Component == stypes[i] &
+           !(`Data id` %in% circStudies)) %>%
+    group_by(cellNo) %>%
+    summarise(z = n_distinct(`Data id`)) %>%
+    right_join(xy, by = "cellNo") %>%
+    dplyr::select(x, y, z)
+
+  rasDat <- raster::rasterFromXYZ(dat, crs = crs(ras))
+  rasDat_prj <- raster::projectRaster(rasDat, method = 'bilinear', crs = prj)
+  rasDat_prj_df <- rasDat_prj %>% raster::rasterToPoints() %>% as_tibble() %>% rename(`N studies` = z)
+  
+  ggpList[[length(ggpList)+1]] <- ggplot() + 
+    theme_void() +
+    geom_raster(aes(x = x, y = y, fill = depth), data = bat_df) + 
+    scale_fill_continuous(guide = "none")+
+    new_scale_fill() +
+    geom_raster(aes(x = x, y = y, fill = `N studies`), data = rasDat_prj_df) + 
+    viridis::scale_fill_viridis(option = "viridis", na.value = "transparent", alpha = 0.7, limits = fillLim)+
+    geom_sf(aes(), data = world_shp, colour = "dark grey", fill = "dark grey") +
+    geom_sf(aes(), data = cookie, fill = "white") +
+    coord_sf(xlim = 4600*c(-1,1), ylim = 4600*c(-1,1), crs = prj, expand = T) +
+    xlab("") + ylab("")+
+    ggtitle(paste0(letters[i], ". ",stypes[i]))+
+    theme(legend.position = "bottom")
+  
+}
+
+
+ggpMap <- ggpubr::ggarrange(plotlist=ggpList, nrow=1, common.legend = TRUE, legend="bottom")
+
+ggsave(
+  filename = here::here("figures/supplemental/STab1_studyLocationsMap.pdf"), 
+  plot= ggpMap,
+  width = 7, height = 5
+)
+
+```

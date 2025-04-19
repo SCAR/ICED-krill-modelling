@@ -1,0 +1,51 @@
+---
+title: "Appendix-sensitivity-analyses"
+author: "Devi Veytia"
+date: "18/06/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.pos = "h")
+```
+
+
+# Sensitivity analysis 1a: Regional drivers
+
+Since multiple nodes are perturbed simultaneously to produce the different regional types, we simulated the press perturbations to individual driver nodes (Latitude and Depth) in isolation and recorded the response of growth and survival.
+
+```{r regionalIsolatedPerturbations, fig.cap=c("Individual drivers of regional differences")}
+
+knitr::include_graphics(
+  normalizePath(
+    "figures/supplemental/historical_regionalDriverSensitivityAnalysisContingencyTable.pdf"))
+```
+
+Figure \@ref(fig:regionalIsolatedPerturbations):
+Net krill growth and survival (% simulations predicting an increase - % simulations predicting a decrease) as a function of varying combinations of perturbations to regional drivers (latitude and depth). The growth response is shown in the upper left triangle of each combination in the contingency table, and survival on the bottom right. Combinations of drivers that result in the three regional types explored in this study are labeled: Open ocean, continental shelf, and north Antarctic Peninsula.
+
+# Sensitivity analysis 1b: Climate drivers
+
+
+```{r climateChangeIsolatedPerturbations, fig.cap=c("The net effects of individual drivers of climate change on model nodes.")}
+
+knitr::include_graphics(
+  normalizePath(
+    "figures/supplemental/future_climateDriverSensitivityAnalysis-allnodes-heatmap.pdf"))
+
+```
+
+Figure \@ref(fig:climateChangeIsolatedPerturbations):
+Positive and negative press perturbations were applied to the three variables used to simulate climate change (x axis) across the three regional types (grey panel headings). The net response (% positive simulations- % negative simulations) of the model nodes (y axis) minus the net response in the baseline region simulations (see Figure \@ref(fig:regionalIsolatedPerturbations)) is shown using the colourbar (for more description see Figure \@ref(fig:climateChangePerturbations)). Note that only relative differences > 30% are shown.
+
+
+
+# Sensitivity analysis 2: Individual uncertain edges
+
+We performed a sensitivity analysis on the effects of adding uncertain edges by adding uncertain edges one at a time to examine their incremental effect on growth and survival. To acknowledge that the effect of an edge will likely vary depending on the structure of the model at the time it is added, we permuted the edge adding sequence 500 times, and at each step the resulting change in growth and survival was recorded. This analysis was performed for the North Antarctic Peninsula under the +Temp & -PP scenario.
+
+
+
+
+
+

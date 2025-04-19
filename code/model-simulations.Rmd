@@ -1,0 +1,1345 @@
+---
+title: "model-simulations"
+author: "Devi Veytia"
+date: "18/06/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(QPress)
+library(dplyr)
+library(reshape2)
+library(ggplot2)
+library(RColorBrewer)
+library(colorspace)
+
+addTaskCallback(function(...) {set.seed(123);TRUE})
+```
+
+
+# Set up
+
+## Read in interactions for models
+
+```{r set the model version and read in the corresponding table of interactions}
+modVersion <- "v18"
+
+allInteractionsExplanTable <- read.csv(
+  file.path(getwd(), "models", paste0("combinedModel_",modVersion,"_pairNo_and_interactionExplanations.csv")))
+
+# rename "Depth of benthos" to just "Depth"
+allInteractionsExplanTable$From <- replace(
+  allInteractionsExplanTable$From, allInteractionsExplanTable$From== "Depth of benthos", "Depth")
+allInteractionsExplanTable$To <- replace(
+  allInteractionsExplanTable$To, allInteractionsExplanTable$To== "Depth of benthos", "Depth")
+
+```
+
+## Formatting
+
+```{r set up variables for consistent formatting}
+## Visualizing
+smallVal <- 0.2*100 # threshold where we want to show that the % change is more meaningful in figures
+
+
+## Factoring information
+
+# Levels of classifications of interactions
+classificationLevels <- c("Certain","Uncertain")
+classificationLabels <- seq(0,length(classificationLevels)-1)
+
+# Levels of the models
+modelLevels = c("Certain","All")
+modelLabels = c("Evidenced","+ Hypothesised")
+
+# Rename climate scenarios and create levels for order of appearance
+climateScenarioLevels <- c("A","B","B.2","C","D")
+climateScenarioLabels <- c(
+  "+Temp & +PP",
+  "+Temp & -PP",
+  "no sea ice & -PP",
+  "-Temp & +PP",
+  "-Temp & -PP"
+)
+
+# Labels for climate drivers
+climateDriverLabels = c("(-) Autumn PP","(+) Autumn PP","(-) Temperature","(+) Temperature","(-) Wind Stress","(+) Wind Stress")
+
+# Rename regions
+regionNames <- c(RT1="Open ocean",RT2="High-lat shelf",RT3="Low-lat shelf")
+
+
+# ordering nodes
+allNodes <- unique(c(allInteractionsExplanTable$From, allInteractionsExplanTable$To))
+responseNodes <- c("Growth","Survival")
+regionDriverNodes <- c("Depth","Latitude")
+physicalDriverNodes <- c("Autumn primary production", "Temperature","Wind stress")
+otherNodes <- allNodes[
+  which(!(allNodes %in% c(responseNodes, regionDriverNodes, physicalDriverNodes)))]
+otherNodes <- otherNodes[order(otherNodes)]
+nodeNames <- c(responseNodes, otherNodes, regionDriverNodes, physicalDriverNodes)
+
+
+## Lookup table for press perturbations to make regional type
+regionTypeLookupDriver <- data.frame(
+  region_id <- names(regionNames),
+  region = regionNames,
+  Latitude = factor(c("Negative","Positive","Negative")),
+  Depth = c("Positive","Negative","Negative"),
+  glacialMelt = c(NA, "+ Glacial melt", "+ Glacial melt"),
+  hist_model = c("exclGlacialMelt", "all","all"),
+  scenarioB2_model = c("no sea ice",NA,"no sea ice")
+)
+regionTypeLookupDriver$regionLabel <- factor(regionTypeLookupDriver$region,
+                         levels = regionNames,
+                         labels = lapply(regionNames, FUN = function(x) paste(strwrap(x, 8), collapse="\n")))
+
+
+## Lookup table of which regions and scenarios to not include
+regionClimScenarioRm <- data.frame(
+  Region = regionNames[c(2,3,3)],
+  `Climate scenario` = climateScenarioLevels[3:5]
+)
+colnames(regionClimScenarioRm)[2] <- c("Climate scenario")
+```
+
+```{r format interactions for reading into QPress}
+
+# remove explanations and format for reading into QPress
+allEdges <- allInteractionsExplanTable %>%
+  mutate(Group = factor(Class.,
+                        levels = classificationLevels,
+                        labels = classificationLabels))%>%
+  dplyr::select(From, To, Group, Type, Pair) %>%
+  mutate(Group = as.numeric(Group)-1,
+         From = factor(From, levels = nodeNames),
+         To = factor(To, levels=nodeNames),
+         Type = factor(Type, levels = c("N","P","U","Z")))
+
+
+# then get edge labels and order factoring for those
+allEdgesLabels <- edge.labels(allEdges) # b4 self limiting
+certainEdges <- allEdgesLabels[which(allInteractionsExplanTable$Class. == "Certain")]
+certainEdges <- certainEdges[order(certainEdges)]
+uncertainEdges <- allEdgesLabels[which(allInteractionsExplanTable$Class. == "Uncertain")]
+uncertainEdges <- uncertainEdges[order(uncertainEdges)]
+
+```
+
+
+
+## Universal simulation parameters
+
+```{r universal simulation parameters}
+nSims <- 5000
+```
+
+
+```{r set up named vectors for sets of press perturbations}
+## Regional press perturbations
+R1.pp <- c("Latitude"= -1, "Depth"=1)
+R2.pp <- c("Latitude" =1, "Depth"=-1)
+R3.pp <- c("Latitude"=-1, "Depth"=-1)
+regionalPressPerturbations <- list(R1.pp, R2.pp, R3.pp)
+names(regionalPressPerturbations) <- regionNames
+
+## Climate change scenario
+CCA.pp <- c("Temperature"=1, "Wind stress"=1, "Autumn primary production"=1)
+CCB.pp <- c("Temperature"=1, "Wind stress"=1, "Autumn primary production"=-1)
+CCC.pp <- c("Temperature"=-1, "Wind stress"=1, "Autumn primary production"=1)
+CCD.pp <- c("Temperature"=-1, "Wind stress"=1, "Autumn primary production"=-1)
+climatePressPerturbations <- list(CCA.pp, CCB.pp,CCB.pp, CCC.pp, CCD.pp)
+names(climatePressPerturbations) <- climateScenarioLevels
+
+```
+
+
+```{r source functions}
+source(here::here("R/extend.vector"))
+source(here::here("R/impact.barplot.myMod"))
+```
+
+
+
+
+```{r Set up all the models that will be used for the predictions}
+
+## Certain models
+
+# All certain interactions
+certainMod <- retain.groups(allEdges, groups=0) # all certain interactions
+certainMod <- enforce.limitation(certainMod) # enforce self-limiting effect
+certainModSim <- system.simulate(nSims, certainMod) # simulate
+
+# excluding glacial melt (for open-ocean)
+tempEdges <- allEdges
+tempEdges$Group[which(tempEdges$From == "Glacial melt")] <- 1
+tempEdges$Group[which(tempEdges$To == "Glacial melt")] <- 1
+certainMod.noGM <- retain.groups(tempEdges, groups=0)
+certainMod.noGM <- enforce.limitation(certainMod.noGM) # enforce self-limiting effect
+certainModSim.noGM <- system.simulate(nSims, certainMod.noGM) # simulate
+
+# excluding sea ice (for CC scenario B2 north antarctic peninsula)
+tempEdges <- allEdges
+tempEdges$Group[grepl("ice", tempEdges$From, ignore.case = TRUE)] <- 1  
+tempEdges$Group[grepl("ice", tempEdges$To, ignore.case = TRUE)] <- 1
+certainMod.noIce <- retain.groups(tempEdges, groups=0)
+certainMod.noIce <- enforce.limitation(certainMod.noIce) # enforce self-limiting effect
+certainModSim.noIce <- system.simulate(nSims, certainMod.noIce) # simulate
+
+# excluding glacial melt AND sea ice (for CC scenario B2 open ocean)
+tempEdges <- allEdges
+tempEdges$Group[c(grep("ice", tempEdges$From, ignore.case = TRUE),
+                  which(tempEdges$From == "Glacial melt"))] <- 1  
+tempEdges$Group[c(grep("ice", tempEdges$To, ignore.case = TRUE),
+                  which(tempEdges$To == "Glacial melt"))] <- 1
+certainMod.noGMIce <- retain.groups(tempEdges, groups=0)
+certainMod.noGMIce <- enforce.limitation(certainMod.noGMIce) # enforce self-limiting effect
+certainModSim.noGMIce <- system.simulate(nSims, certainMod.noGMIce) # simulate
+
+
+## add Uncertain interactions models
+
+# All interactions
+allMod <- allEdges # all all interactions
+allMod <- enforce.limitation(allMod) # enforce self-limiting effect
+allModSim <- system.simulate(nSims, allMod) # simulate
+
+# excluding glacial melt (for open-ocean)
+tempEdges <- allEdges
+tempEdges$Group <- 0
+tempEdges$Group[which(tempEdges$From == "Glacial melt")] <- 1
+tempEdges$Group[which(tempEdges$To == "Glacial melt")] <- 1
+allMod.noGM <- retain.groups(tempEdges, groups=0)
+allMod.noGM <- enforce.limitation(allMod.noGM) # enforce self-limiting effect
+allModSim.noGM <- system.simulate(nSims, allMod.noGM) # simulate
+
+# excluding sea ice (for CC scenario B2 north antarctic peninsula)
+tempEdges <- allEdges
+tempEdges$Group <- 0
+tempEdges$Group[grepl("ice", tempEdges$From, ignore.case = TRUE)] <- 1  
+tempEdges$Group[grepl("ice", tempEdges$To, ignore.case = TRUE)] <- 1
+allMod.noIce <- retain.groups(tempEdges, groups=0)
+allMod.noIce <- enforce.limitation(allMod.noIce) # enforce self-limiting effect
+allModSim.noIce <- system.simulate(nSims, allMod.noIce) # simulate
+
+# excluding glacial melt AND sea ice (for CC scenario B2 open ocean)
+tempEdges <- allEdges
+tempEdges$Group <- 0
+tempEdges$Group[c(grep("ice", tempEdges$From, ignore.case = TRUE),
+                  which(tempEdges$From == "Glacial melt"))] <- 1  
+tempEdges$Group[c(grep("ice", tempEdges$To, ignore.case = TRUE),
+                  which(tempEdges$To == "Glacial melt"))] <- 1
+allMod.noGMIce <- retain.groups(tempEdges, groups=0)
+allMod.noGMIce <- enforce.limitation(allMod.noGMIce) # enforce self-limiting effect
+allModSim.noGMIce <- system.simulate(nSims, allMod.noGMIce) # simulate
+
+
+
+## Join altogether in a list
+modelList <- list(
+  Certain = list(
+    all = certainModSim,
+    exclGlacialMelt = certainModSim.noGM,
+    exclSeaIce = certainModSim.noIce,
+    exclGlacialAndIce = certainModSim.noGMIce
+  ),
+  All = list(
+    all = allModSim,
+    exclGlacialMelt = allModSim.noGM,
+    exclSeaIce = allModSim.noIce,
+    exclGlacialAndIce = allModSim.noGMIce
+  )
+)
+```
+
+
+# Historical scenario
+
+### Regional driver sensitivity analysis
+
+Note because glacial melt only affects instances where depth is shallow (negative), incl glacial melt only in these perturbations
+```{r sensitivity analysis effects of regional drivers}
+
+# list of regional types perturbations to cross for sensitivity analysis
+combinations <- expand.grid(c(0,-1,1), c(0,-1,1))
+# remove combinations that are unrealistic
+combinations <- combinations[-which(combinations[,1] == 0 & combinations[,2]==0),]
+combinations <- combinations[-which(combinations[,1] == 1 & combinations[,2]==1),] 
+colnames(combinations) <- c("Latitude","Depth")
+combinations <- as.data.frame(combinations)
+
+# Loop through all the combinations to simulate individual press perturbations
+for(c in 1:nrow(combinations)){
+    
+  # if the depth is shallow, use model with glacial melt
+  if(combinations$Depth[c]==-1){
+    modObj <- certainModSim
+    glacMelt <- "+ Glacial melt"
+  }else{
+    modObj <- certainModSim.noGM
+    glacMelt <- NA
+  }
+    
+  # simulate the perturbation
+  temp <- impact.barplot.myMod(modObj, 
+    perturb = c("Latitude"=combinations$Latitude[c],
+                "Depth"=combinations$Depth[c]),
+    plot=FALSE, percentage = TRUE
+    )
+    
+ temp <- data.frame(
+   Node = rownames(temp),
+   glacialMeltInModel = glacMelt,
+   Latitude = combinations$Latitude[c],
+   Depth = combinations$Depth[c],
+   Negative = temp[,1],
+   `No Change` = temp[,2],
+   Positive = temp[,3]
+ )
+  if(c==1){
+    regionalDrivers <- temp
+  }else{
+    regionalDrivers <- rbind(regionalDrivers, temp)
+  }  
+  
+}
+# format columns
+regionalDrivers$Latitude <- factor(regionalDrivers$Latitude,
+                                   levels = c(-1,0,1),
+                                   labels = c("Negative","No Change","Positive"))
+regionalDrivers$Depth <- factor(regionalDrivers$Depth,
+                                   levels = c(-1,0,1),
+                                   labels = c("Negative","No Change","Positive"))
+rownames(regionalDrivers) <- NULL
+regionalDrivers$`Net Prediction` <- regionalDrivers$Positive-regionalDrivers$Negative
+
+
+## Write results
+write.csv(regionalDrivers, here::here("outputs/historical_regionalDriverSensitivityAnalysis.csv"))
+```
+
+```{r supplemental figure regional driver sensitivity analysis}
+
+## create tiles for survival and growth responses
+require(ggnewscale)
+
+# format dataframe for plotting polygons
+source(here::here("R/getTiles.R"))
+survTiles <- getTiles(regionalDrivers %>% filter(Node == "Survival"))
+growTiles <- getTiles(regionalDrivers %>% filter(Node == "Growth"),
+                        xTrans = -0.5+c(0,1,0), yTrans = -0.5+c(0,1,1))
+
+# format dataframe for plotting text on top of polygons
+survText <- regionalDrivers %>% 
+  filter(Node == "Survival") %>%
+  mutate(x = as.numeric(Depth)+0.3, y = as.numeric(Latitude)-0.3)
+growText <- regionalDrivers %>% 
+  filter(Node == "Growth") %>%
+  mutate(x = as.numeric(Depth)-0.3, y = as.numeric(Latitude)+0.3)
+
+
+# Table for text to indicate which combinations are the different region types
+regionText <- regionTypeLookupDriver %>%
+  mutate(
+    Latitude = factor(Latitude, levels = levels(regionalDrivers$Latitude)),
+    Depth = factor(Depth, levels = levels(regionalDrivers$Depth)),
+    x = as.numeric(Depth),
+    y=as.numeric(Latitude)
+  )
+
+# plot of survival responses
+regionalDriverContingency_ggp <- ggplot()+
+  geom_polygon(data = survTiles, 
+               aes(x,y,group=id, fill=`Net Prediction`))+
+  geom_text(data = survText,
+            aes(x,y, label = round(`Net Prediction`)))+
+  scale_fill_continuous_divergingx(palette = 'RdBu', rev=TRUE, mid = 0, 
+                                   name = "Net\nSurvival\n(% sims)", l2 = 100,
+                                   limits = c(-100,100)) +
+  scale_x_continuous(breaks = c(1:3), 
+                     labels = rev(c("Positive","No Change","Negative\n+ Glacial Melt")), 
+                     name = "Depth")+
+  scale_y_continuous(breaks = c(1:3), 
+                     labels = rev(c("Positive","No Change","Negative")), 
+                     name="Latitude")+
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(color="black"),
+        axis.text.x = element_text(hjust=1, size = 12, angle=45),
+        axis.text.y = element_text(angle = 90, hjust=0.5,vjust=1, size = 12),
+        axis.title = element_text(size=14))
+
+
+# add tiles for growth
+regionalDriverContingency_ggp <- regionalDriverContingency_ggp+
+  new_scale_fill()+
+  geom_polygon(data = growTiles, 
+               aes(x,y,group=id, fill=`Net Prediction`))+
+  geom_text(data = growText,
+            aes(x,y, label = round(`Net Prediction`)))+
+  scale_fill_continuous_divergingx(palette = 'PuOr', rev=TRUE, mid = 0, 
+                                   name = "Net Growth\n(% sims)", l2 = 100,
+                                   limits = c(-100,100)) +
+  geom_text(data=regionText, 
+            aes(x,y, label = regionLabel), fontface = "bold")
+
+regionalDriverContingency_ggp
+ggsave(here::here("figures/supplemental/historical_regionalDriverSensitivityAnalysisContingencyTable.pdf"),
+       plot=regionalDriverContingency_ggp,width=6, height = 5)
+
+```
+
+### Historical regional types
+
+Here we simulate the different regional types using different model configurations for the historical scenario.
+
+```{r simulate the historical press perturbations}
+histCombinations <- expand.grid(regionNames, modelLabels)
+
+for(i in 1:nrow(histCombinations)){
+  # identify appropriate model for the sim
+  modName <- regionTypeLookupDriver$hist_model[which(regionTypeLookupDriver$region == histCombinations[i,1])]
+  modObj = modelList[[histCombinations[i,2]]][[modName]]
+  
+  # run press perturbation
+  temp <- impact.barplot.myMod(
+    modObj, 
+    perturb = regionalPressPerturbations[[which(names(regionalPressPerturbations) == histCombinations[i,1])]], plot = FALSE, percentage = TRUE)
+  
+  # add ID columns
+  temp <- as.data.frame(temp)
+  temp$Node <- rownames(temp); rownames(temp) <- NULL
+  temp$Region <- histCombinations[i,1]
+  temp$Model <- histCombinations[i,2]
+  temp$Scenario <- "Historical"
+  
+  if(i==1){
+    historicalPerturbationResults <- temp
+  }else{
+    historicalPerturbationResults <- rbind(historicalPerturbationResults, temp)
+  }
+}
+
+
+## Save
+
+write.csv(historicalPerturbationResults, 
+          here::here("outputs/historical_regionalPerturbationResults.csv"))
+
+```
+
+```{r barplot of the different regions with the certain model}
+historicalPerturbationResults <- readr::read_csv(here::here("outputs/historical_regionalPerturbationResults.csv"))
+
+historicalPerturbationResults %>%
+  filter(Node %in% c("Survival","Growth") & Model==modelLabels[1] )%>%
+  mutate(Region = factor(Region, levels = regionNames))%>%
+  ggplot(aes(x=Node, y=Positive, fill = Region)) + 
+  geom_col(position = "dodge")+
+  geom_text(aes(y = Positive+1, label = paste0(round(Positive),"%")), 
+            position = position_dodge(1), vjust = 0, col="black")+
+  geom_text(aes(y = Positive-1, label = paste0("-",round(Negative),"%")), 
+            position = position_dodge(1), vjust = 1, col="red")+
+  geom_text(aes(y = Positive-8, label = paste0(round(Positive-Negative),"%")), 
+            position = position_dodge(1), vjust = 1, col="white")+
+  xlab("Response variable")+
+  ylab("Predicted positive response\n(% simulations)")+
+  scale_fill_brewer(name = "Region", palette = "Paired")+
+  scale_y_continuous(limits = c(0,100), breaks = seq(0,100,20)) + 
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(color="black"),
+        axis.text.x = element_text(angle = 45, hjust=1, size = 12),
+        axis.title = element_text(size=14))
+
+
+## Save figure
+ggsave(here::here("figures/main/historical_certainBaselineSurvivalAndGrowth.pdf"), width=6, height = 5)
+
+
+## Changed barplot to just show One node
+historicalPerturbationResults %>%
+  filter(Node %in% c("Survival") & Model==modelLabels[1] )%>%
+  mutate(Region = factor(Region, levels = regionNames))%>%
+  ggplot(aes(x=Node, y=Positive, fill = Region)) + 
+  geom_col(position = "dodge")+
+  geom_text(aes(y = Positive+1, label = paste0(round(Positive),"%")), 
+            position = position_dodge(1), vjust = 0, col="black")+
+  geom_text(aes(y = Positive-1, label = paste0("-",round(Negative),"%")), 
+            position = position_dodge(1), vjust = 1, col="red")+
+  geom_text(aes(y = Positive-8, label = paste0(round(Positive-Negative),"%")), 
+            position = position_dodge(1), vjust = 1, col="white")+
+  xlab("Larval Growth and Survival Response")+
+  ylab("Predicted positive response\n(% simulations)")+
+  scale_fill_brewer(name = "Region", palette = "Paired")+
+  scale_y_continuous(limits = c(0,100), breaks = seq(0,100,20)) + 
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(color="black"),
+        axis.text.x = element_blank(),
+        axis.title.x = element_text(hjust = 0),
+        axis.ticks.x = element_blank(),
+        axis.title = element_text(size=12))
+
+## Save figure
+ggsave(here::here("figures/main/historical_certainBaselineSurvivalAndGrowthCombined.pdf"), width=5, height = 5)
+```
+
+```{r also do for both model types}
+
+historicalPerturbationResults %>%
+  filter(Node %in% c("Survival","Growth"))%>%
+  mutate(Region = factor(Region, levels = regionNames),
+         Model= factor(Model, levels=modelLabels))%>%
+  ggplot(aes(x=Node, y=Positive, fill = Region)) +
+  facet_wrap(vars(Model))+
+  geom_col(position = "dodge")+
+  geom_text(aes(y = Positive+1, label = paste0(round(Positive),"%")), 
+            position = position_dodge(1), vjust = 0, col="black")+
+  geom_text(aes(y = Positive-1, label = paste0("-",round(Negative),"%")), 
+            position = position_dodge(1), vjust = 1, col="red")+
+  geom_text(aes(y = Positive-8, label = paste0(round(Positive-Negative),"%")), 
+            position = position_dodge(1), vjust = 1, col="white")+
+  xlab("Response variable")+
+  ylab("Predicted positive response\n(% simulations)")+
+  scale_fill_brewer(name = "Region", palette = "Paired")+
+  scale_y_continuous(limits = c(0,100), breaks = seq(0,100,20)) + 
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(color="black"),
+        axis.text.x = element_text(angle = 45, hjust=1, size = 12),
+        axis.title = element_text(size=14),
+        legend.position = "bottom")
+
+## Save figure
+ggsave(here::here("figures/supplemental/historical_allModelBaselineSurvivalAndGrowth.pdf"), width=7, height = 5)
+
+```
+
+
+## Climate change scenarios
+
+### Climate change driver sensitivity analysis
+
+For all the different regional types, perturb climate change nodes one at a time. Only do this for the certain model structure. At this stage, do not consider whether or not sea ice is absent
+
+```{r simulate climate change press perturbations}
+
+# list of regional types perturbations to cross for sensitivity analysis
+climateDrivers <- c("Autumn primary production", "Temperature","Wind stress")
+climCombinations <- expand.grid(climateDrivers, c(-1,1),regionNames)
+colnames(climCombinations)<- c("Climate Driver", "Perturbation","Region")
+climCombinations <- as.data.frame(climCombinations)
+
+# Loop through all the combinations to simulate individual press perturbations
+for(i in 1:nrow(climCombinations)){
+  
+  # identify the right regional model for the sim 
+  modName <- regionTypeLookupDriver$hist_model[which(regionTypeLookupDriver$region == climCombinations[i,"Region"])]
+  modObj = modelList[["Certain"]][[modName]] 
+  
+  # get the climate press perturbation
+  climPress <- climCombinations[i,"Perturbation"]
+  names(climPress) <- climCombinations[i,"Climate Driver"]
+  
+  # get the regional driver perturbations
+  regionPress <- regionalPressPerturbations[[which(names(regionalPressPerturbations) == climCombinations[i,"Region"])]]
+  
+  # run press perturbation
+  temp <- impact.barplot.myMod(
+    modObj, 
+    perturb = c(climPress, regionPress), plot = FALSE, percentage = TRUE)
+  
+  # add ID columns
+  temp <- as.data.frame(temp)
+  temp$Node <- rownames(temp); rownames(temp) <- NULL
+  temp$Region <- climCombinations[i,"Region"]
+  temp$`Climate Driver` <- climCombinations[i,"Climate Driver"]
+  temp$Press <- climCombinations[i,"Perturbation"]
+  temp$Scenario <- "Future: climate driver sensitivity analysis"
+    
+  
+  if(i==1){
+    climateDrivers <- temp
+  }else{
+    climateDrivers <- rbind(climateDrivers, temp)
+  }  
+}
+
+climateDrivers$Press <- factor(climateDrivers$Press,
+                                   levels = c(-1,1),
+                                   labels = c("Negative","Positive"))
+
+climateDrivers$`Net Prediction` <- climateDrivers$Positive-climateDrivers$Negative
+
+## Write results
+write.csv(climateDrivers,
+          here::here("outputs/future_climateDriverSensitivityAnalysis.csv"))
+
+```
+
+```{r heatmap of future-historical change in response to isolated climate drivers}
+
+## Load data
+climateDrivers <- readr::read_csv(here::here("outputs/future_climateDriverSensitivityAnalysis.csv"))
+climateDrivers[,1] <- NULL
+historicalPerturbationResults <- readr::read_csv(
+  here::here("outputs/historical_regionalPerturbationResults.csv"))
+historicalPerturbationResults[,1] <- NULL          
+
+
+
+## Calculate future-historical into new variable: netClimateChange
+
+# calculate net change for the historical
+historicalPerturbationResults <- historicalPerturbationResults %>%
+  mutate(`Net Prediction` = Positive-Negative)
+
+# merge datasets together
+isolationsClimateMinusBaseline <- historicalPerturbationResults %>% 
+  filter(Model == modelLabels[1]) %>% 
+  dplyr::select(`Net Prediction`, Node, Region)%>%
+  right_join(climateDrivers, by=c("Region","Node"), suffix=c(".historical",".future")) %>%
+  mutate(`Relative change` = `Net Prediction.future`-`Net Prediction.historical`,
+         Press = factor(Press, levels=c("Negative","Positive"), labels = c("-","+")),
+         Region = factor(Region, regionNames)) %>%
+  rename(`Climate driver`=`Climate Driver`)%>%
+  dplyr::select(Node, Region,`Climate driver`,Press,`Relative change`)
+
+# factor columns
+isolationsClimateMinusBaseline$`Climate driver` <- factor(
+  isolationsClimateMinusBaseline$`Climate driver`, 
+  levels = physicalDriverNodes,
+  labels = c("Autumn PP","Temperature","Wind stress")
+)
+isolationsClimateMinusBaseline$`Climate driver` <- as.character(isolationsClimateMinusBaseline$`Climate driver`)
+isolationsClimateMinusBaseline$`Climate driver` <- paste(
+  isolationsClimateMinusBaseline$`Climate driver`, isolationsClimateMinusBaseline$Press
+)
+isolationsClimateMinusBaseline$Node <- factor(isolationsClimateMinusBaseline$Node, nodeNames)
+
+
+
+## Text annotations for plot
+textAnnotations <- data.frame(
+  Region = rep(regionNames[3],3),
+  x = rep(length(unique(isolationsClimateMinusBaseline$`Climate driver`))+1.5,3),
+  y = c(2.5/2, 
+        length(c(responseNodes, otherNodes, regionDriverNodes))-(length(regionDriverNodes)/2)+0.25, 
+        length(c(responseNodes, otherNodes, regionDriverNodes,
+                 physicalDriverNodes))-(length(physicalDriverNodes)/2))+0.25,
+  text = c("Krill\nresponse","Regional\nperturbations","Physical\nperturbations")
+)
+textAnnotations$Region <- factor(textAnnotations$Region, levels = regionNames)
+
+
+## Plot
+
+
+isolationsClimateMinusBaseline %>%
+  ggplot(aes(x=`Climate driver`, y=Node, z=`Relative change`)) + 
+  facet_wrap(vars(Region), labeller = label_wrap_gen(50)) +
+  geom_tile(aes(fill=`Relative change`)) +
+  # white-out tiles where difference is < smallVal
+  geom_tile(data = isolationsClimateMinusBaseline %>% filter(abs(`Relative change`) > smallVal), fill="transparent",col="lightgrey")+
+
+  labs(x="Climate driver", y="Model node",title="Net future prediction relative to historical baseline",
+       caption = paste0("Outlining differences > ",smallVal)) +
+  scale_y_discrete(breaks=nodeNames, labels=nodeNames)+
+  scale_x_discrete(labels = climateDriverLabels)+
+  scale_fill_continuous_divergingx(palette = 'PRGn', rev=FALSE, mid = 0, name = "Relative\nchange\n(%)", l2 = 100,
+                                   limits = c(-200,200)) +
+  # add lines and annotations to delineate responses from predictor nodes 
+  geom_hline(yintercept = 2.5, col="red", size=1.5)+
+  geom_hline(yintercept = length(c(otherNodes, responseNodes))+0.5, col="red", size=1.5)+
+  geom_hline(yintercept = length(c(otherNodes, responseNodes,
+                                   regionDriverNodes))+0.5, col="red", size=1.5)+
+  geom_text(data=textAnnotations, aes(x,y, label = text), hjust=0, size = 3.5, col="red", inherit.aes = FALSE)+
+  coord_cartesian(clip="off")+
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(color="black"),
+        axis.text.x = element_text(angle = 45, hjust=1, size = 10),
+        axis.text.y = element_text(size=12),
+        axis.title = element_text(size=14))
+
+
+ggsave(here::here("figures/supplemental/future_climateDriverSensitivityAnalysis-allnodes-heatmap.pdf"), width = 8, height = 6)
+```
+
+
+```{r future-historical change in response to isolated climate drivers for just groth and survival for the evidenced model}
+
+isolationsClimateMinusBaseline %>%
+  filter(Node %in% c("Growth","Survival"))%>% # & smallVal <= abs(`Relative change`)
+  mutate(Node =factor(Node, levels=c("Growth","Survival")))%>%
+  
+  
+  ggplot(aes(y=`Climate driver`, x=Node, z=`Relative change`)) + 
+  facet_wrap(vars(Region), labeller = label_wrap_gen(50)) +
+  geom_tile(aes(fill=`Relative change`), na.rm=T) +
+  geom_tile(data = isolationsClimateMinusBaseline %>%
+              filter(Node %in% c("Growth","Survival")& smallVal <= abs(`Relative change`))%>% 
+              mutate(Node =factor(Node, levels=c("Growth","Survival"))),
+            aes(y=`Climate driver`, x=Node), fill="transparent", col="black", na.rm=T) +
+  geom_hline(data = data.frame(yintercept = c(2.5,4.5)), aes(yintercept=yintercept))+
+  labs(x="Response node", y="Climate driver",title="Net future prediction relative to historical baseline",
+       caption = paste0("outlining differences > ",smallVal))+
+  scale_fill_continuous_divergingx(palette = 'PRGn', rev=FALSE, mid = 0, name = "Relative change (%)", l2 = 100,limits = c(-100,100)) +
+  scale_y_discrete(limits=rev, 
+                   labels = rev(c(climateDriverLabels)))+
+  geom_text(aes(label = paste(round(`Relative change`), "%")))+
+  theme(panel.background = element_rect(fill = "white", colour="black"),
+        axis.line = element_line(color="black"),
+        #axis.text.x = element_text(angle = 45, hjust=1, size = 12),
+        axis.text.y = element_text(size=12),
+        axis.title = element_text(size=14), #axis.title.x = element_blank()
+        legend.position = "bottom",
+        legend.key.width = unit(0.5, "in"))
+
+
+ggsave(here::here("figures/main/future_climateDriverSensitivityAnalysis-growthAndSurvival-heatmap.pdf"), width = 7, height = 5)
+  
+```
+
+
+
+### Climate scenario press perturbations
+
+Here simulations are run for the different climate change scenarios, regional types, and model structures.
+
+```{r run the predictions for different scenarios regions and model types}
+
+# list of regional types perturbations to cross for sensitivity analysis
+
+climCombinations <- expand.grid(names(climatePressPerturbations), regionNames,names(modelList))
+colnames(climCombinations)<- c("Climate scenario", "Region","Model")
+climCombinations <- as.data.frame(climCombinations)
+
+# Loop through all the combinations to simulate individual press perturbations
+for(i in 1:nrow(climCombinations)){
+  
+  # identify the right regional models for the sim
+  certaintyMod <- climCombinations$Model[i]
+  regionMod <- regionTypeLookupDriver$hist_model[
+    which(regionTypeLookupDriver$region == climCombinations[i,"Region"])]
+  noIce <- climCombinations$`Climate scenario`[i] == "B.2"
+  noGlacialMelt <- grepl("GlacialMelt", regionMod)
+  if(noIce & noGlacialMelt){
+    modName <- "exclGlacialAndIce"
+  }else if(noIce){
+    modName <- "exclSeaIce"
+  }else if(noGlacialMelt){
+    modName <- "exclGlacialMelt"
+  }else{
+    modName <- "all"
+  }
+  modObj = modelList[[certaintyMod]][[modName]] 
+  
+  # get the climate scenario press perturbation
+  climPress <- climatePressPerturbations[[climCombinations$`Climate scenario`[i]]]
+  
+  # get the regional driver perturbations
+  regionPress <- regionalPressPerturbations[[climCombinations[i,"Region"]]]
+  
+  # run press perturbation
+  temp <- impact.barplot.myMod(
+    modObj, 
+    perturb = c(climPress, regionPress), plot = FALSE, percentage = TRUE)
+  
+  # add ID columns
+  temp <- as.data.frame(temp)
+  temp$Node <- rownames(temp); rownames(temp) <- NULL
+  temp$Region <- climCombinations[i,"Region"]
+  temp$Model <- climCombinations$Model[i]
+  temp$Experiment <- paste("Future climate")
+  temp$`Climate scenario` <- climCombinations[i,"Climate scenario"]
+    
+  
+  if(i==1){
+    climateScenarios <- temp
+  }else{
+    climateScenarios <- rbind(climateScenarios, temp)
+  }  
+}
+
+climateScenarios$`Net Prediction` <- climateScenarios$Positive-climateScenarios$Negative
+climateScenarios$Model <- factor(climateScenarios$Model, levels = names(modelList), labels = modelLabels)
+
+
+## Write results
+write.csv(climateScenarios, here::here("outputs/future_climateScenarios.csv"))
+
+```
+
+```{r heatmap of future-historical change for across all nodes and scenarios for certain model}
+## Load data
+climateScenarios <- readr::read_csv(here::here("outputs/future_climateScenarios.csv"))
+climateScenarios[,1] <- NULL
+historicalPerturbationResults <- readr::read_csv(
+  here::here("outputs/historical_regionalPerturbationResults.csv"))
+historicalPerturbationResults[,1] <- NULL
+
+
+## Scenario combination to grey out
+greyScenarios <- data.frame(
+  Region = regionNames[c(2,3,3)],
+  `Climate scenario` = c("B.2","C","D")
+)
+greyScenarios <- merge(greyScenarios, data.frame(Node = nodeNames))
+greyScenarios$Region <- factor(greyScenarios$Region, regionNames)
+greyScenarios$Node <- factor(greyScenarios$Node, nodeNames)
+
+## Nodes to grey out
+seaIceNodes = node.labels(certainMod)[grep("ice", node.labels(certainMod), ignore.case=TRUE)]
+greyNodes <- rbind(
+                                        # Glacial melt for Open Ocean, all climate scenarios
+    data.frame(
+        Region = rep(regionNames[1], length(climateScenarioLevels)),
+        Node = rep('Glacial melt', length(climateScenarioLevels)),
+        Climate.scenario = climateScenarioLevels
+    ),
+    ## Sea ice for Scenario B.2 Region 1 & 3
+    data.frame(
+        Region = c(rep(regionNames[1], length(seaIceNodes)),rep(regionNames[3], length(seaIceNodes))),
+        Node = c(seaIceNodes, seaIceNodes),
+        Climate.scenario = rep("B.2", length(seaIceNodes) * 2)
+    )
+)
+greyNodes$Region <- factor(greyNodes$Region, regionNames)
+greyNodes$Climate.scenario = factor(greyNodes$Climate.scenario, climateScenarioLevels)
+
+
+
+
+# excluding sea ice (for CC scenario B2 north antarctic peninsula)
+tempEdges <- allEdges
+tempEdges$Group[grepl("ice", tempEdges$From, ignore.case = TRUE)] <- 1
+tempEdges$Group[grepl("ice", tempEdges$To, ignore.case = TRUE)] <- 1
+certainMod.noIce <- retain.groups(tempEdges, groups=0)
+certainMod.noIce <- enforce.limitation(certainMod.noIce) # enforce self-limiting effect
+certainModSim.noIce <- system.simulate(nSims, certainMod.noIce) # simulate
+
+# excluding glacial melt AND sea ice (for CC scenario B2 open ocean)
+tempEdges <- allEdges
+tempEdges$Group[c(grep("ice", tempEdges$From, ignore.case = TRUE), which(tempEdges$From == "Glacial melt"))] <- 1
+tempEdges$Group[c(grep("ice", tempEdges$To, ignore.case = TRUE), which(tempEdges$To == "Glacial melt"))] <- 1
+certainMod.noGMIce <- retain.groups(tempEdges, groups=0)
+certainMod.noGMIce <- enforce.limitation(certainMod.noGMIce) # enforce self-limiting effect
+certainModSim.noGMIce <- system.simulate(nSims, certainMod.noGMIce) # simulate
+
+
+## Calculate future-historical
+
+# calculate net change for the historical
+historicalPerturbationResults <- historicalPerturbationResults %>%
+  mutate(`Net Prediction` = Positive-Negative)
+
+# merge datasets together
+climateMinusBaseline <- historicalPerturbationResults %>%
+    dplyr::select(`Net Prediction`, Node, Region, Model)%>%
+    right_join(climateScenarios, by=c("Region","Node","Model"), suffix=c(".historical",".future")) %>%
+    mutate(`Relative change` = `Net Prediction.future`-`Net Prediction.historical`,
+           Region = factor(Region, regionNames),
+           `Climate scenario` = factor(`Climate scenario`, names(climatePressPerturbations)),
+           Model = factor(Model, modelLabels, labels=modelLabels)) %>%
+    dplyr::select(Node, Region,Model,`Climate scenario`,`Relative change`)
+
+
+## Text annotations for plot
+textAnnotations <- data.frame(
+  Region = rep(regionNames[3],3),
+  x = rep(length(unique(climateMinusBaseline$`Climate scenario`))+1,3),
+  y = c(2.5/2,
+        length(c(responseNodes, otherNodes, regionDriverNodes))-(length(regionDriverNodes)/2)+0.25,
+        length(c(responseNodes, otherNodes, regionDriverNodes,
+                 physicalDriverNodes))-(length(physicalDriverNodes)/2))+0.25,
+  text = c("Krill\nresponse","Regional\nperturbations","Physical\nperturbations")
+)
+textAnnotations$Region <- factor(textAnnotations$Region, levels = regionNames)
+
+
+## Plot
+
+climateMinusBaseline %>%
+  filter(Model == modelLabels[1]) %>%
+  mutate(Node = factor(Node, nodeNames)) %>%
+
+  ggplot(aes(x=`Climate scenario`, y=Node)) +
+  facet_wrap(vars(Region), labeller = label_wrap_gen(50)) +
+  geom_tile(aes(fill=`Relative change`)) +
+  geom_tile(data = climateMinusBaseline %>%
+              filter(Model == modelLabels[1] & smallVal <= abs(`Relative change`))%>%
+              mutate(Node = factor(Node, nodeNames)),
+            aes(x=`Climate scenario`, y=Node),
+            fill="transparent",col = "grey") +
+  geom_tile(data=greyScenarios, aes(x=`Climate.scenario`, y=Node), fill="grey")+
+  geom_tile(data=greyNodes, aes(x=`Climate.scenario`, y=Node), fill="grey")+
+  labs(x="Climate scenario", y="Model node",title="Net future prediction relative to historical baseline",
+       caption = paste0("outlining differences > ",smallVal,
+                        "\n Showing predictions using evidenced interactions")) +
+  scale_y_discrete(limits=nodeNames, labels=nodeNames)+
+  scale_x_discrete(limits = climateScenarioLevels, labels = climateScenarioLabels)+
+  scale_fill_continuous_divergingx(palette = 'PRGn', rev=FALSE, mid = 0, name = "Relative\nchange\n(%)", l2 = 100,
+                                   limits = c(-200,200))+
+  # add lines and annotations to delineate responses from predictor nodes
+  geom_hline(yintercept = 2.5, col="red", size=1.5)+
+  geom_hline(yintercept = length(c(otherNodes, responseNodes))+0.5, col="red", size=1.5)+
+  geom_hline(yintercept = length(c(otherNodes, responseNodes))+2.5, col="red", size=1.5)+
+  geom_text(data=textAnnotations, aes(x,y, label = text), hjust=0, size = 3.5, col="red", inherit.aes = FALSE)+
+  coord_cartesian(clip="off")+
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(color="black"),
+        axis.text.x = element_text(angle = 45, hjust=1, size = 12),
+        axis.text.y = element_text(size=12),
+        axis.title = element_text(size=14))
+
+ggsave(here::here("figures/supplemental/future_climateScenario-allnodes-certainModel-heatmap.pdf"), width = 8, height = 6)
+
+```
+
+```{r heatmap of future-historical change for growth and survival across scenarios just evidenced model}
+## Scenario combination to grey out
+greyScenarios <- data.frame(
+  Region = regionNames[c(2,3,3)],
+  `Climate scenario` = c("B.2","C","D")
+)
+
+greyScenarios <- merge(greyScenarios, data.frame(Node = c("Growth","Survival")))
+greyScenarios$Region <- factor(greyScenarios$Region, regionNames)
+greyScenarios$Node <- factor(greyScenarios$Node, c("Growth","Survival"))
+greyScenarios$Climate.scenario <- factor(greyScenarios$Climate.scenario, levels(climateMinusBaseline$`Climate scenario`))
+greyScenarios <- greyScenarios %>%
+  rename(`Climate scenario` = Climate.scenario)
+
+px <- climateMinusBaseline %>%
+    filter(Node %in% c("Growth","Survival") &
+           Model == modelLabels[1]) %>%
+    anti_join(regionClimScenarioRm) %>%
+    mutate(Node = factor(Node, levels = c("Growth","Survival")),
+           `Climate scenario` = factor(`Climate scenario`, levels = c("A", "B", "B.2", "C", "D")))
+
+ggplot(px, aes(x=Node, y=`Climate scenario`)) +
+    geom_tile(aes(fill=`Relative change`)) +
+    geom_tile(data = greyScenarios %>% mutate(`Climate scenario` = factor(`Climate scenario`, levels = c("A", "B", "B.2", "C", "D"))),
+              fill="grey") +
+    geom_tile(
+        data = px %>% filter(smallVal <= abs(`Relative change`)), fill = "transparent", col="black") +
+    labs(y = "Climate change scenario") +
+    facet_grid(. ~ Region, labeller = label_wrap_gen(50)) +
+    scale_fill_continuous_divergingx(palette = 'PRGn', rev=FALSE, mid = 0,
+                                     name = "Relative change (%)", l2 = 100,
+                                     limits = c(-200,200))+
+    scale_y_discrete(limits = rev(climateScenarioLevels), labels = rev(climateScenarioLabels))+
+    geom_text(aes(label = paste(round(`Relative change`), "%")))+
+    theme(panel.background = element_rect(fill = "white", colour="black"),
+          axis.line = element_line(color="black"),
+          axis.text.y = element_text(size=9),
+          axis.title = element_text(size=12),
+          axis.title.x = element_blank(),
+          legend.position = "bottom",
+          legend.key.width = unit(0.5, "in"))
+
+ggsave(here::here("figures/main/future_evidenced-model_climateScenario-growthAndSurvival-heatmap.pdf"), width = 7, height = 5)
+
+
+```
+
+```{r heatmap of future-historical change for growth and survival across scenarios and all models}
+## Scenario combination to grey out
+greyScenarios <- data.frame(
+  Region = regionNames[c(2,3,3)],
+  `Climate scenario` = c("B.2","C","D")
+)
+
+greyScenarios <- merge(greyScenarios, data.frame(Node = c("Growth","Survival")))
+greyScenarios <- merge(greyScenarios, data.frame(Model = c(levels(climateMinusBaseline$Model), "Difference")))
+greyScenarios$Region <- factor(greyScenarios$Region, regionNames)
+greyScenarios$Node <- factor(greyScenarios$Node, c("Growth","Survival"))
+greyScenarios$Model <- factor(greyScenarios$Model, c(levels(climateMinusBaseline$Model), "Difference"))
+greyScenarios$Climate.scenario <- factor(greyScenarios$Climate.scenario, levels(climateMinusBaseline$`Climate scenario`), labels = climateScenarioLabels)
+greyScenarios <- greyScenarios %>%
+  rename(`Climate scenario` = Climate.scenario)
+
+
+redLine <- data.frame(x=c(0.5, 2.5), y=rep(1.45, 2))
+redLine <- redLine %>%
+  merge(climateMinusBaseline %>%filter(Node == "Growth")%>% dplyr::select(Region, Model, `Climate scenario`)) %>%
+  anti_join(regionClimScenarioRm) %>%
+  mutate(`Climate scenario` = factor(`Climate scenario`,
+                                     levels = climateScenarioLevels,
+                                     labels = climateScenarioLabels))
+
+
+
+differenceDf <- climateMinusBaseline %>%
+  filter(Node %in% c("Growth","Survival"))%>%
+  group_by(Node, Region, `Climate scenario`)%>%
+  arrange(Node, Region, `Climate scenario`,Model) %>%
+  mutate(`Relative change` = `Relative change`-dplyr::lag(`Relative change`)) %>%
+  filter(!is.na(`Relative change`)) %>%
+  mutate(Model = "Difference",
+         `Climate scenario` = factor(`Climate scenario`,
+                                     levels = climateScenarioLevels,
+                                     labels = climateScenarioLabels))
+
+climateMinusBaseline %>%
+  filter(Node %in% c("Growth","Survival"))%>%
+  mutate(`Climate scenario` = factor(`Climate scenario`,
+                                     levels = climateScenarioLevels,
+                                     labels = climateScenarioLabels)) %>%
+  rbind(differenceDf) %>%
+  anti_join(regionClimScenarioRm) %>% 
+  mutate(Node = factor(Node, c("Growth","Survival")),
+         Model = factor(Model, levels = c(levels(climateMinusBaseline$Model), "Difference")))%>% 
+ 
+  ggplot(aes(x=Node, y=Model)) + 
+  facet_grid(`Climate scenario`~Region, labeller = label_wrap_gen(10)) +
+  geom_tile(data=greyScenarios, aes(x=Node, y=Model), fill="grey")+
+  geom_tile(aes(fill=`Relative change`)) +
+  geom_tile(data = differenceDf %>%
+              anti_join(regionClimScenarioRm), aes(x=Node, y=Model), fill="white")+
+  geom_tile(
+    data = climateMinusBaseline %>%
+      filter(Node %in% c("Growth","Survival") & smallVal <= abs(`Relative change`))%>%
+      anti_join(regionClimScenarioRm) %>%
+      mutate(Node = factor(Node, c("Growth","Survival"))) %>%
+      mutate(`Climate scenario` = factor(`Climate scenario`,
+                                     levels = climateScenarioLevels,
+                                     labels = climateScenarioLabels)),
+    aes(x=Node, y=Model), fill = "transparent", col="black"
+  )+
+  geom_line(data = redLine, aes(x=x, y=y), col="red", lwd=1)+
+  labs(y="Model",title="Net future prediction relative to historical baseline",
+       caption = paste0("outlining differences > ",smallVal)) +
+  scale_fill_continuous_divergingx(palette = 'PRGn', rev=FALSE, mid = 0, 
+                                   name = "Relative change (%)", l2 = 100,
+                                   limits = c(-200,200))+
+  scale_y_discrete(limits=rev, labels = rev(c(modelLabels,"Model difference")))+
+  geom_text(aes(label = paste(round(`Relative change`), "%")))+
+  geom_text(data = differenceDf %>%
+              anti_join(regionClimScenarioRm),
+            aes(label = paste(round(`Relative change`), "%")), col="red")+
+  
+  theme(panel.background = element_rect(fill = "white", colour="black"),
+        axis.line = element_line(color="black"),
+        axis.text.y = element_text(size=12),
+        axis.title = element_text(size=14),
+        axis.title.x = element_blank(),
+        legend.position = "bottom",
+        legend.key.width = unit(0.5, "in"))
+
+ggsave(here::here("figures/main/future_allModels_climateScenario-growthAndSurvival-heatmap.pdf"), width = 7, height = 7)
+
+
+```
+
+```{r heatmap of future-historical change for across all nodes and model structures but one scenario}
+## Text annotations
+textAnnotations <- data.frame(
+  x = rep(length(unique(climateMinusBaseline$Model))+0.75,3),
+  y = c(2.5/2,
+        length(c(responseNodes, otherNodes, regionDriverNodes))-(length(regionDriverNodes)/2)+0.25,
+        length(c(responseNodes, otherNodes, regionDriverNodes,
+                 physicalDriverNodes))-(length(physicalDriverNodes)/2))+0.25,
+  text = c("Krill\nresponse","Regional\nperturbations","Physical\nperturbations")
+)
+
+tempDat <- climateMinusBaseline %>%
+    filter(`Climate scenario` == "B" & Region == regionNames[3] & abs(`Relative change`) < smallVal)%>% 
+    mutate(Node = factor(Node, rev(nodeNames))) %>%
+  mutate(`Climate scenario` = factor(`Climate scenario`,
+                                     levels = climateScenarioLevels,
+                                     labels = climateScenarioLabels))
+
+tempDat2 <- climateMinusBaseline %>%
+    filter(`Climate scenario` == "B" & Region == regionNames[3] & smallVal <= abs(`Relative change`))%>%
+    mutate(Node = factor(Node, rev(nodeNames))) %>%
+  mutate(`Climate scenario` = factor(`Climate scenario`,
+                                     levels = climateScenarioLevels,
+                                     labels = climateScenarioLabels))
+
+climateMinusBaseline %>%
+  filter(`Climate scenario` == "B" & Region == regionNames[3])%>%
+  mutate(Node = factor(Node, rev(nodeNames))) %>%
+  mutate(`Climate scenario` = factor(`Climate scenario`,
+                                     levels = climateScenarioLevels,
+                                     labels = climateScenarioLabels)) %>%
+  ggplot(aes(x=Model, y=Node)) +
+  geom_tile(aes(fill=`Relative change`), na.rm = FALSE) +
+  geom_tile(data=tempDat, fill="white")+
+  labs(title="Net future prediction relative to historical baseline",
+       caption = paste0("showing differences > ",smallVal)) +
+  scale_fill_continuous_divergingx(palette = 'PRGn', rev=FALSE, mid = 0, name = "Relative\nchange\n(%)", l2 = 100,
+                                   limits = c(-200,200))+
+  # add lines and annotations to group nodes
+  geom_hline(yintercept = 2.5, col="red", size=1.5)+
+  geom_hline(yintercept = length(c(otherNodes, responseNodes))+0.5, col="red", size=1.5)+
+  geom_hline(yintercept = length(c(otherNodes, responseNodes))+2.5, col="red", size=1.5)+
+  geom_text(data=textAnnotations, aes(x,y, label = text), hjust=0, size = 3.5, col="red", inherit.aes = FALSE)+
+  coord_cartesian(clip="off")+
+  scale_y_discrete(limits=rev)+
+  geom_text(data =tempDat2, aes(label = paste(round(`Relative change`), "%")))+
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(color="black"),
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size=12),
+        axis.title = element_text(size=14),
+        axis.title.x = element_blank())
+
+ggsave(here::here("figures/supplemental/future_climate-senarioB_allModels_allNodes_heatmap.pdf"), width = 8, height = 6)
+
+```
+
+
+
+## Adding individual uncertain edges
+
+
+Impact of incorporating uncertain individual edges on krill growth and survival -- calculate for all regions and scenarios but focus visualizations on North Antarctic Peninsula under the  climate change scenario B.
+
+Start with the certain model, and then iteratively add in interactions and plot the cumulative response curve for both survival and growth. Permute on an edge by edge basis. because the number of edges to be permuted is less (only uncertain, n=6) then it is possible to look at all possible permutations. Start with certain interactions (i.e. certainty mod).
+
+
+NOTE this takes a LONGGGG time to run
+
+```{r add snow 1 to all climate scenarios}
+
+#climatePressPerturbations <- lapply(climatePressPerturbations, function(x) c(x, Snow=1))
+
+```
+
+
+```{r LONNGGG CALCULATION permute edge adding order, eval=FALSE}
+
+require(combinat)
+
+
+## Set up objects for loop
+
+# identify the permuation orders
+perms <- permn(uncertainEdges)
+nPerm <- length(perms)
+
+# identify regions and scenarios to loop through,
+# removing combinations of region x climate scenario that aren't investigated
+permCombinations <- expand.grid(
+  regionNames, names(climatePressPerturbations)
+)
+colnames(permCombinations) <- c("Region","Climate scenario")
+permCombinations <- anti_join(permCombinations, regionClimScenarioRm)
+
+# identify node outcomes to record
+keepNode <- responseNodes
+
+
+
+## Loop through all regions and climate change scenarios
+for(i in 1:nrow(permCombinations)){
+
+  # identify model simulation to use for this combination
+  regionMod <- regionTypeLookupDriver$hist_model[
+    regionTypeLookupDriver$region == permCombinations$Region[i]]
+  noIce <- permCombinations$`Climate scenario`[i] == "B.2"
+  noGlacialMelt <- grepl("GlacialMelt", regionMod)
+  if(noIce & noGlacialMelt){
+    modName <- "exclGlacialAndIce"
+  }else if(noIce){
+    modName <- "exclSeaIce"
+  }else if(noGlacialMelt){
+    modName <- "exclGlacialMelt"
+  }else{
+    modName <- "all"
+  }
+  modObj = modelList[["All"]][[modName]] 
+  
+  # identify press perturbations
+  # get the climate scenario press perturbation
+  climPress <- climatePressPerturbations[[permCombinations$`Climate scenario`[i]]]
+  # get the regional driver perturbations
+  regionPress <- regionalPressPerturbations[[permCombinations[i,"Region"]]]
+  
+  
+  
+  ## Loop through all the different orders of permuting
+  for(p in 1:nPerm){
+    
+    # Using all the edges in the model, assign different group names to 
+    # uncertain interactions so they can be added one at a time
+    # Make a new edge list with groups that I can subset based on edge classification
+    tempEdges <- modObj$edges
+    ind <- which(edge.labels(modObj$edges) %in% uncertainEdges)
+    tempEdges[ind,"Group"] <- edge.labels(modObj$edges)[ind]
+    
+    
+    
+    ## Loop through each step of the permutation order. 
+    for(s in 0:length(perms[[p]])){ # Start with 0 because 0 == certain model
+      
+      # if s==0, it's just the certain model, if not, add the appropriate edge  
+     if(s==0){
+       temp <- retain.groups(tempEdges, 0)
+    }else{  
+      temp <- retain.groups(tempEdges, c(0,perms[[p]][1:s]))
+      } # end if step != 0
+      
+      # simulate model
+      temp$Group <- rep(0, nrow(temp))
+      temp <- enforce.limitation(temp)
+      tempSim <- system.simulate(nSims, temp)
+      temp <- impact.barplot.myMod(
+              tempSim, c(climPress, regionPress), 
+              plot=FALSE, percentage = TRUE)
+          
+     # subset temp Results to just the response nodes and format data frame
+    temp <- temp[which(rownames(temp) %in% keepNode),] 
+    temp <- as.data.frame(temp)
+    temp$Node <- rownames(temp); rownames(temp) <- NULL
+    temp$Region <- permCombinations[i,"Region"]
+    temp$Experiment <- paste("Future climate")
+    temp$`Climate scenario` <- permCombinations[i,"Climate scenario"]
+    temp$permID <- rep(p, nrow(temp)) # ID equivalent to the row of perms
+    temp$stepID <- rep(s, nrow(temp)) # ID equivalent to col index of perms
+    if(s==0){
+      temp$edgeAdded <- rep("Certain", nrow(temp))
+    }else{
+      temp$edgeAdded = rep(perms[[p]][s], nrow(temp))
+    }
+    ## Print checks comparing output files with what's made in code
+    # print(temp)
+    # edgePermutations %>% 
+    #   filter(Region == permCombinations[i,"Region"], 
+    #          `Climate scenario` == permCombinations$`Climate scenario`[i],
+    #          permID == p, stepID == s)
+    
+    
+    ## rbind dataframe
+    if(p==1 & s==0){
+      edgePermutations <- temp
+    }else{
+      edgePermutations <- rbind(edgePermutations, temp)
+    }
+      
+    } # end of looping through s (edge adding)
+
+  } # end of looping through p (permutations)
+  
+  ## Save
+  filename <- paste0("edgeAdd_",
+              permCombinations[i,"Region"],"-scenario", 
+              permCombinations[i,"Climate scenario"],
+              ".csv")
+  filename<- gsub(" ","-", filename)
+  write.csv(edgePermutations,
+          here::here(
+            "outputs/future_uncertainEdgeAddingPermutations",paste(filename)
+          ))
+  
+} # end of looping through climate and region scenarios
+
+
+```
+
+
+After the permutation, format data to determine what the change was from the previous permutation step
+
+```{r calculation summarize the edge effects}
+
+## Read in data
+edgePermutationsDir <- here::here("outputs/future_uncertainEdgeAddingPermutations") #future_uncertainEdgeAddingPermutations_noSnowPress
+edgePermutationsFiles <- dir(edgePermutationsDir)
+for(i in 1:length(edgePermutationsFiles)){
+  temp <- readr::read_csv(file.path(edgePermutationsDir, edgePermutationsFiles[i]),
+                          col_select = c(Negative, Positive, Node, Region, `Climate scenario`, 
+                                         permID, stepID, edgeAdded),
+                          show_col_types = FALSE)
+  if(i==1)
+    edgePermutations <- temp
+  else
+    edgePermutations <- rbind(edgePermutations, temp)
+}
+
+
+## Replace old names with new names
+edgePermutations$edgeAdded <- gsub("Autumn primary production -> Ice algae",
+                                   "Autumn primary production -> Sea-ice algae",
+                                   edgePermutations$edgeAdded)
+edgePermutations$edgeAdded <- gsub("Certain",
+                                   modelLabels[1],
+                                   edgePermutations$edgeAdded)
+
+
+
+
+
+## Format and summarise the edge adding effect on % positive predictions
+edgePermutations <- edgePermutations %>%
+  mutate(edgeAdded = factor(edgeAdded,levels = uncertainEdges,
+                            labels = gsub("Autumn primary production","Autumn PP", uncertainEdges)),
+         Node = factor(Node, levels = responseNodes),
+         Region =factor(Region, 
+                        levels = regionNames),
+         `Climate scenario` = factor(`Climate scenario`, climateScenarioLevels, labels = climateScenarioLabels),
+         stepID = factor(stepID, levels = 0:length(uncertainEdges)),
+         Net = Positive-Negative) %>%
+  group_by(Region, `Climate scenario`, Node, permID) %>%
+  arrange(Region, `Climate scenario`, Node, permID, stepID)%>%
+  mutate(stepChangePositive = Positive-lag(Positive, default = first(Positive)),
+         stepChangeNet = Net-lag(Net, default = first(Net)),
+         stepChangeNegative = Negative-lag(Negative, default = first(Negative))) %>%
+  ungroup()
+
+summary(edgePermutations)
+
+```
+
+
+```{r violin plots of all the edge changes for nAP CCS B}
+
+edgePermutations %>%
+  filter(Region == regionNames[3], 
+         `Climate scenario` == climateScenarioLabels[2],
+         !is.na(edgeAdded)) %>% 
+  ggplot(aes(x = edgeAdded, y = stepChangePositive, fill = Node))+
+  geom_violin()+
+  geom_boxplot(width=0.1, outlier.shape = NA,position = position_dodge(0.9))+
+  labs(x = "Edge added", y= "Change in % positive simulations")+
+  geom_hline(yintercept = 0, col="black")+
+  scale_fill_brewer(palette = "Dark2", name="Response node")+
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(color="black"),
+        axis.text.x = element_text(angle = 45, hjust=1, size = 12),
+        axis.title = element_text(size=14),
+        legend.position = "bottom",
+        plot.margin = unit(c(0,0.5, 0.1, 1.25), "cm"))
+
+ggsave(here::here("figures/main/future_violinPlotPermutationsEdgeAdded_nAP-CCB.pdf"),width=7, height = 6,units = "in")
+
+```
+
+
+
+```{r violin plots of all the edge changes for all regions and scenarios}
+
+edgePermutations %>%
+  filter(!is.na(edgeAdded)) %>%
+  ggplot(aes(x = edgeAdded, y = stepChangePositive, fill = Region, col=Region))+
+  facet_grid(`Climate scenario`~Node, scales = "free", labeller = label_wrap_gen(10))+
+  geom_violin()+
+  geom_boxplot(width=0.1, outlier.shape = NA,position = position_dodge(0.9))+
+  labs(x = "Edge added", y= "Change in % positive simulations")+
+  geom_hline(yintercept = 0, col="black")+
+  scale_fill_brewer(palette = "Paired")+
+  scale_color_brewer(palette = "Paired")+
+  theme(panel.background = element_rect(fill = "white",color = "grey"),
+        axis.line = element_line(color="grey"),
+        axis.text.x = element_text(angle = 45, hjust=1, size = 12),
+        axis.title = element_text(size=14),
+        legend.position = "bottom",
+        plot.margin = unit(c(0,0.5, 0.1, 1.75), "cm"))
+
+ggsave(here::here("figures/supplemental/future_violinPlotPermutationsEdgeAdded_allRegions_allClimateScenarios.pdf"),width=7, height = 8,units = "in")
+
+```
+
+

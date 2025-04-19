@@ -1,0 +1,172 @@
+"","Node","glacialMeltInModel","Latitude","Depth","Negative","No.Change","Positive","Net Prediction"
+"1","Growth",NA,"Negative","No Change",17,0,83,66
+"2","Survival",NA,"Negative","No Change",17,0.02,82.98,65.98
+"3","DMS",NA,"Negative","No Change",15.68,0,84.32,68.64
+"4","Ice terraces",NA,"Negative","No Change",0,100,0,0
+"5","Large pelagic algae",NA,"Negative","No Change",43.72,0,56.28,12.56
+"6","Light",NA,"Negative","No Change",0.92,0,99.08,98.16
+"7","Marine snow",NA,"Negative","No Change",53.36,0.02,46.62,-6.74
+"8","MLD",NA,"Negative","No Change",0,100,0,0
+"9","Nutrients",NA,"Negative","No Change",0,100,0,0
+"10","Other grazers (competition)",NA,"Negative","No Change",9.8,0,90.2,80.4
+"11","POM",NA,"Negative","No Change",35.84,0,64.16,28.32
+"12","Predation risk",NA,"Negative","No Change",17,0.12,82.88,65.88
+"13","Sea-ice algae",NA,"Negative","No Change",7.68,0,92.32,84.64
+"14","Sea-ice concentration",NA,"Negative","No Change",0,100,0,0
+"15","Sea-ice convergence",NA,"Negative","No Change",0,100,0,0
+"16","Sea-ice thickness",NA,"Negative","No Change",0,100,0,0
+"17","Small copepods",NA,"Negative","No Change",34.64,0.02,65.34,30.7
+"18","Small pelagic algae",NA,"Negative","No Change",21.82,0,78.18,56.36
+"19","Snow",NA,"Negative","No Change",0,100,0,0
+"20","Depth",NA,"Negative","No Change",0,100,0,0
+"21","Latitude",NA,"Negative","No Change",100,0,0,-100
+"22","Autumn primary production",NA,"Negative","No Change",0,100,0,0
+"23","Temperature",NA,"Negative","No Change",0,100,0,0
+"24","Wind stress",NA,"Negative","No Change",0,100,0,0
+"25","Growth",NA,"Positive","No Change",83,0,17,-66
+"26","Survival",NA,"Positive","No Change",82.98,0.02,17,-65.98
+"27","DMS",NA,"Positive","No Change",84.32,0,15.68,-68.64
+"28","Ice terraces",NA,"Positive","No Change",0,100,0,0
+"29","Large pelagic algae",NA,"Positive","No Change",56.28,0,43.72,-12.56
+"30","Light",NA,"Positive","No Change",99.08,0,0.92,-98.16
+"31","Marine snow",NA,"Positive","No Change",46.62,0.02,53.36,6.74
+"32","MLD",NA,"Positive","No Change",0,100,0,0
+"33","Nutrients",NA,"Positive","No Change",0,100,0,0
+"34","Other grazers (competition)",NA,"Positive","No Change",90.2,0,9.8,-80.4
+"35","POM",NA,"Positive","No Change",64.16,0,35.84,-28.32
+"36","Predation risk",NA,"Positive","No Change",82.88,0.12,17,-65.88
+"37","Sea-ice algae",NA,"Positive","No Change",92.32,0,7.68,-84.64
+"38","Sea-ice concentration",NA,"Positive","No Change",0,100,0,0
+"39","Sea-ice convergence",NA,"Positive","No Change",0,100,0,0
+"40","Sea-ice thickness",NA,"Positive","No Change",0,100,0,0
+"41","Small copepods",NA,"Positive","No Change",65.34,0.02,34.64,-30.7
+"42","Small pelagic algae",NA,"Positive","No Change",78.18,0,21.82,-56.36
+"43","Snow",NA,"Positive","No Change",0,100,0,0
+"44","Depth",NA,"Positive","No Change",0,100,0,0
+"45","Latitude",NA,"Positive","No Change",0,0,100,100
+"46","Autumn primary production",NA,"Positive","No Change",0,100,0,0
+"47","Temperature",NA,"Positive","No Change",0,100,0,0
+"48","Wind stress",NA,"Positive","No Change",0,100,0,0
+"49","Growth","+ Glacial melt","No Change","Negative",17.6,0,82.4,64.8
+"50","Survival","+ Glacial melt","No Change","Negative",17.6,0,82.4,64.8
+"51","DMS","+ Glacial melt","No Change","Negative",37.4,0,62.6,25.2
+"52","Glacial melt","+ Glacial melt","No Change","Negative",0,100,0,0
+"53","Ice terraces","+ Glacial melt","No Change","Negative",0,100,0,0
+"54","Large pelagic algae","+ Glacial melt","No Change","Negative",61.08,0,38.92,-22.16
+"55","Light","+ Glacial melt","No Change","Negative",62.6,0,37.4,-25.2
+"56","Marine snow","+ Glacial melt","No Change","Negative",87.96,0,12.04,-75.92
+"57","MLD","+ Glacial melt","No Change","Negative",0,100,0,0
+"58","Nutrients","+ Glacial melt","No Change","Negative",0,0,100,100
+"59","Other grazers (competition)","+ Glacial melt","No Change","Negative",39.24,0,60.76,21.52
+"60","POM","+ Glacial melt","No Change","Negative",26.04,0.02,73.94,47.9
+"61","Predation risk","+ Glacial melt","No Change","Negative",17.6,0,82.4,64.8
+"62","Sea-ice algae","+ Glacial melt","No Change","Negative",21.68,0,78.32,56.64
+"63","Sea-ice concentration","+ Glacial melt","No Change","Negative",0,100,0,0
+"64","Sea-ice convergence","+ Glacial melt","No Change","Negative",0,100,0,0
+"65","Sea-ice thickness","+ Glacial melt","No Change","Negative",0,100,0,0
+"66","Small copepods","+ Glacial melt","No Change","Negative",54.38,0,45.62,-8.76
+"67","Small pelagic algae","+ Glacial melt","No Change","Negative",29.32,0,70.68,41.36
+"68","Snow","+ Glacial melt","No Change","Negative",0,100,0,0
+"69","Depth","+ Glacial melt","No Change","Negative",100,0,0,-100
+"70","Latitude","+ Glacial melt","No Change","Negative",0,100,0,0
+"71","Autumn primary production","+ Glacial melt","No Change","Negative",0,100,0,0
+"72","Temperature","+ Glacial melt","No Change","Negative",0,100,0,0
+"73","Wind stress","+ Glacial melt","No Change","Negative",0,100,0,0
+"74","Growth","+ Glacial melt","Negative","Negative",15.22,0,84.78,69.56
+"75","Survival","+ Glacial melt","Negative","Negative",15.22,0,84.78,69.56
+"76","DMS","+ Glacial melt","Negative","Negative",23.56,0,76.44,52.88
+"77","Glacial melt","+ Glacial melt","Negative","Negative",0,100,0,0
+"78","Ice terraces","+ Glacial melt","Negative","Negative",0,100,0,0
+"79","Large pelagic algae","+ Glacial melt","Negative","Negative",53.98,0,46.02,-7.95999999999999
+"80","Light","+ Glacial melt","Negative","Negative",28.66,0,71.34,42.68
+"81","Marine snow","+ Glacial melt","Negative","Negative",82.22,0,17.78,-64.44
+"82","MLD","+ Glacial melt","Negative","Negative",0,100,0,0
+"83","Nutrients","+ Glacial melt","Negative","Negative",0,0,100,100
+"84","Other grazers (competition)","+ Glacial melt","Negative","Negative",24.34,0,75.66,51.32
+"85","POM","+ Glacial melt","Negative","Negative",26.56,0,73.44,46.88
+"86","Predation risk","+ Glacial melt","Negative","Negative",15.22,0,84.78,69.56
+"87","Sea-ice algae","+ Glacial melt","Negative","Negative",13.9,0.02,86.08,72.18
+"88","Sea-ice concentration","+ Glacial melt","Negative","Negative",0,100,0,0
+"89","Sea-ice convergence","+ Glacial melt","Negative","Negative",0,100,0,0
+"90","Sea-ice thickness","+ Glacial melt","Negative","Negative",0,100,0,0
+"91","Small copepods","+ Glacial melt","Negative","Negative",46.92,0,53.08,6.16
+"92","Small pelagic algae","+ Glacial melt","Negative","Negative",23.78,0,76.22,52.44
+"93","Snow","+ Glacial melt","Negative","Negative",0,100,0,0
+"94","Depth","+ Glacial melt","Negative","Negative",100,0,0,-100
+"95","Latitude","+ Glacial melt","Negative","Negative",100,0,0,-100
+"96","Autumn primary production","+ Glacial melt","Negative","Negative",0,100,0,0
+"97","Temperature","+ Glacial melt","Negative","Negative",0,100,0,0
+"98","Wind stress","+ Glacial melt","Negative","Negative",0,100,0,0
+"99","Growth","+ Glacial melt","Positive","Negative",35.16,0,64.84,29.68
+"100","Survival","+ Glacial melt","Positive","Negative",35.16,0,64.84,29.68
+"101","DMS","+ Glacial melt","Positive","Negative",59.96,0,40.04,-19.92
+"102","Glacial melt","+ Glacial melt","Positive","Negative",0,100,0,0
+"103","Ice terraces","+ Glacial melt","Positive","Negative",0,100,0,0
+"104","Large pelagic algae","+ Glacial melt","Positive","Negative",61.38,0,38.62,-22.76
+"105","Light","+ Glacial melt","Positive","Negative",86.44,0,13.56,-72.88
+"106","Marine snow","+ Glacial melt","Positive","Negative",82.98,0,17.02,-65.96
+"107","MLD","+ Glacial melt","Positive","Negative",0,100,0,0
+"108","Nutrients","+ Glacial melt","Positive","Negative",0,0,100,100
+"109","Other grazers (competition)","+ Glacial melt","Positive","Negative",61.62,0.02,38.36,-23.26
+"110","POM","+ Glacial melt","Positive","Negative",33.02,0,66.98,33.96
+"111","Predation risk","+ Glacial melt","Positive","Negative",35.14,0.02,64.84,29.7
+"112","Sea-ice algae","+ Glacial melt","Positive","Negative",46.2,0,53.8,7.6
+"113","Sea-ice concentration","+ Glacial melt","Positive","Negative",0,100,0,0
+"114","Sea-ice convergence","+ Glacial melt","Positive","Negative",0,100,0,0
+"115","Sea-ice thickness","+ Glacial melt","Positive","Negative",0,100,0,0
+"116","Small copepods","+ Glacial melt","Positive","Negative",61.58,0,38.42,-23.16
+"117","Small pelagic algae","+ Glacial melt","Positive","Negative",49,0,51,2
+"118","Snow","+ Glacial melt","Positive","Negative",0,100,0,0
+"119","Depth","+ Glacial melt","Positive","Negative",100,0,0,-100
+"120","Latitude","+ Glacial melt","Positive","Negative",0,0,100,100
+"121","Autumn primary production","+ Glacial melt","Positive","Negative",0,100,0,0
+"122","Temperature","+ Glacial melt","Positive","Negative",0,100,0,0
+"123","Wind stress","+ Glacial melt","Positive","Negative",0,100,0,0
+"124","Growth",NA,"No Change","Positive",82.64,0,17.36,-65.28
+"125","Survival",NA,"No Change","Positive",82.64,0,17.36,-65.28
+"126","DMS",NA,"No Change","Positive",62.14,0,37.86,-24.28
+"127","Ice terraces",NA,"No Change","Positive",0,100,0,0
+"128","Large pelagic algae",NA,"No Change","Positive",38.1,0,61.9,23.8
+"129","Light",NA,"No Change","Positive",37.86,0,62.14,24.28
+"130","Marine snow",NA,"No Change","Positive",11.84,0,88.16,76.32
+"131","MLD",NA,"No Change","Positive",0,100,0,0
+"132","Nutrients",NA,"No Change","Positive",100,0,0,-100
+"133","Other grazers (competition)",NA,"No Change","Positive",62.42,0,37.58,-24.84
+"134","POM",NA,"No Change","Positive",74.14,0,25.86,-48.28
+"135","Predation risk",NA,"No Change","Positive",82.62,0.02,17.36,-65.26
+"136","Sea-ice algae",NA,"No Change","Positive",77.94,0,22.06,-55.88
+"137","Sea-ice concentration",NA,"No Change","Positive",0,100,0,0
+"138","Sea-ice convergence",NA,"No Change","Positive",0,100,0,0
+"139","Sea-ice thickness",NA,"No Change","Positive",0,100,0,0
+"140","Small copepods",NA,"No Change","Positive",45.06,0,54.94,9.88
+"141","Small pelagic algae",NA,"No Change","Positive",71.14,0.02,28.84,-42.3
+"142","Snow",NA,"No Change","Positive",0,100,0,0
+"143","Depth",NA,"No Change","Positive",0,0,100,100
+"144","Latitude",NA,"No Change","Positive",0,100,0,0
+"145","Autumn primary production",NA,"No Change","Positive",0,100,0,0
+"146","Temperature",NA,"No Change","Positive",0,100,0,0
+"147","Wind stress",NA,"No Change","Positive",0,100,0,0
+"148","Growth",NA,"Negative","Positive",64.52,0,35.48,-29.04
+"149","Survival",NA,"Negative","Positive",64.5,0.02,35.48,-29.02
+"150","DMS",NA,"Negative","Positive",40.2,0,59.8,19.6
+"151","Ice terraces",NA,"Negative","Positive",0,100,0,0
+"152","Large pelagic algae",NA,"Negative","Positive",38.72,0,61.28,22.56
+"153","Light",NA,"Negative","Positive",14.66,0,85.34,70.68
+"154","Marine snow",NA,"Negative","Positive",17.64,0,82.36,64.72
+"155","MLD",NA,"Negative","Positive",0,100,0,0
+"156","Nutrients",NA,"Negative","Positive",100,0,0,-100
+"157","Other grazers (competition)",NA,"Negative","Positive",39.22,0,60.78,21.56
+"158","POM",NA,"Negative","Positive",67,0,33,-34
+"159","Predation risk",NA,"Negative","Positive",64.5,0.04,35.46,-29.04
+"160","Sea-ice algae",NA,"Negative","Positive",53.42,0,46.58,-6.84
+"161","Sea-ice concentration",NA,"Negative","Positive",0,100,0,0
+"162","Sea-ice convergence",NA,"Negative","Positive",0,100,0,0
+"163","Sea-ice thickness",NA,"Negative","Positive",0,100,0,0
+"164","Small copepods",NA,"Negative","Positive",38.8,0,61.2,22.4
+"165","Small pelagic algae",NA,"Negative","Positive",52.28,0,47.72,-4.56
+"166","Snow",NA,"Negative","Positive",0,100,0,0
+"167","Depth",NA,"Negative","Positive",0,0,100,100
+"168","Latitude",NA,"Negative","Positive",100,0,0,-100
+"169","Autumn primary production",NA,"Negative","Positive",0,100,0,0
+"170","Temperature",NA,"Negative","Positive",0,100,0,0
+"171","Wind stress",NA,"Negative","Positive",0,100,0,0
